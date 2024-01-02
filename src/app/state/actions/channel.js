@@ -2,10 +2,20 @@ import {
   GET_CHANNEL_SUCCESS,
   GET_CHANNEL_FAIL,
   GET_LIST_CHANNELS_SUCCESS,
+  SET_BROADCAST_KEYS
 } from '../types'
 
 import fetchClient from '../../utils/fetchClient'
 import { getCookie } from '../../utils/getCookies'
+
+export const setBroadcastKeys = (keys) => {
+  return async dispatch => {
+    dispatch({
+      type: SET_BROADCAST_KEYS,
+      payload: keys
+    })
+  }
+}
 
 export const getListChannels = () => {
   return async dispatch => {

@@ -4,6 +4,7 @@ import {
     GET_CHANNEL_FAIL,
     GET_CHANNEL_SUCCESS,
     GET_LIST_CHANNELS_SUCCESS,
+    SET_BROADCAST_KEYS,
 } from '../types'
 
 const initialState = {
@@ -40,6 +41,11 @@ const reducer = (state = initialState, action) => {
                 streamKey: streamKey.value,
                 ingestServer: `rtmps://${channel.ingestEndpoint}:443/app/`,
                 ingestEndpoint: channel.ingestEndpoint
+            }
+        case SET_BROADCAST_KEYS:
+            return {
+                ...state,
+                ...action.payload,
             }
         default:
             return state

@@ -33,7 +33,6 @@ const Streamer = () => {
         isOpen={notificationOpen}
         onClose={() => closeNotification()}
       />
-
       <Modal
         isOpen={isOpen}
         onClose={toggleModal}
@@ -46,7 +45,6 @@ const Streamer = () => {
         <Broadcast />
       </PlayerWrapper>
       <AdminCard status={status} />
-
     </Wrapper>
   )
 }
