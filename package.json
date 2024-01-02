@@ -1,0 +1,36 @@
+{
+  "name": "auction-simple-2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@aws-sdk/client-ivs": "^3.474.0",
+    "@aws-sdk/client-ivschat": "^3.474.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.0",
+    "@mui/material": "^5.15.0",
+    "@reduxjs/toolkit": "^2.0.1",
+    "amazon-ivs-chat-messaging": "^1.1.1",
+    "copy-to-clipboard": "^3.3.3",
+    "dotenv": "^16.3.1",
+    "next": "14.0.4",
+    "next-redux-wrapper": "^8.1.0",
+    "react": "^18",
+    "react-confetti": "^6.1.0",
+    "react-countdown": "^2.3.5",
+    "react-dom": "^18",
+    "react-hook-form": "^7.49.2",
+    "react-redux": "^9.0.4",
+    "redux": "^5.0.0",
+    "redux-thunk": "^3.1.0",
+    "styled-components": "^6.1.1",
+    "universal-cookie": "^6.1.1",
+    "uuid": "^9.0.1"
+  }
+}
