@@ -1,65 +1,45 @@
-import { useRef, useEffect, useCallback, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import useActions from '../../hooks/useActions'
-import { Video, VideoWrapper, PlayerWrapper, CanvasWrapper } from './styled'
+import { Video, VideoWrapper, PlayerWrapper } from './styled'
 import EmptyVideo from './EmptyVideo'
 import LiveLabel from '../LiveLabel'
-import BroadcastButtons from '../BroadcastButtons'
-import StreamRunning from './StreamRunning'
 import { useMediaQuery } from '@mui/material'
 import { landscapeOrientation } from '../../styles/device'
 import BidResult from '../BidResult'
 
-const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream }) => {
+const VideoPlayer = () => {
   const playerRef = useRef(null)
   const videoRef = useRef(null)
   const playerWrapperRef = useRef()
-  const { channelArn } = useSelector(state => state.channel)
   const { isAdmin } = useSelector(state => state.auth)
   const { bidResult, status } = useSelector(state => state.auction)
-  const { getStream, getChannel, getListChannels, setPlayerHeight } = useActions()
-  const { isLive, devicePermissions, playbackUrl, cameraOn, isStoppingStream } = useSelector(state => state.stream)
+  const { getStream, setPlayerHeight } = useActions()
+  const { isLive, playbackUrl } = useSelector(state => state.stream)
   const matchesLandscape = useMediaQuery(landscapeOrientation)
   const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const memorizedStream = useCallback(
-    (channelArn) => {
-      getStream(channelArn)
-    },
-    [],
-  )
+  const interval = useRef();
+
+  const callGetStream = () => {
+    interval.current = setInterval(() => {
+      getStream()
+    }, 5000)
+  }
 
   useEffect(() => {
-    if (isAdmin && channelArn) {
-      getChannel(channelArn)
-    }
-  }, [isAdmin, channelArn])
-
-  useEffect(() => {
-    if (!isAdmin) return
-    if (isLive) {
-      handleCameraMute()
-    }
-  }, [isLive])
-
-  useEffect(() => {
-    let interval
-    const setupChannels = async () => {
-      const channels = await getListChannels()
-
-      if (channels.length >= 1) {
-        interval = setInterval(() => {
-          memorizedStream(channels[0].arn)
-
-        }, 5000)
-        return
-      }
-    }
-    setupChannels()
-
+    callGetStream()
     return () => {
-      clearInterval(interval)
+      clearInterval(interval.current)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (playbackUrl) {
+      clearInterval(interval.current)
+    } else {
+      callGetStream()
     }
   }, [playbackUrl])
 
@@ -70,7 +50,6 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
   }, [isPlaying])
 
   useEffect(() => {
-    if (isAdmin) return
     if (!playbackUrl) return
     const { IVSPlayer } = window
     const { ENDED, PLAYING, READY } = IVSPlayer.PlayerState
@@ -101,7 +80,6 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
     })
   }, [videoRef, playbackUrl])
 
-
   useEffect(() => {
     if (matches) {
       const { height } = playerWrapperRef.current.getBoundingClientRect()
@@ -110,35 +88,13 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
   }, [status])
 
 
-  const renderEmptyVideo = () => {
-    if (isLive && !isStoppingStream) {
-      return <StreamRunning />
-    } else if (!devicePermissions.video || !devicePermissions.audio) {
-      return <EmptyVideo isAdmin={isAdmin} />
-    }
-  }
-
   return (
     <PlayerWrapper ref={playerWrapperRef}>
       {matchesLandscape && bidResult && <BidResult />}
       {isLive && <LiveLabel />}
       <VideoWrapper>
-        {isAdmin ? (
-          <>
-            {renderEmptyVideo()}
-            <CanvasWrapper
-              key='STREAM_PREVIEW_VIDEO'
-              id='cam-video-preview'
-              permissions={devicePermissions.video}
-              ref={canvasRef}
-            ></CanvasWrapper>
-          </>
-        ) : (
-          playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo isAdmin={isAdmin} />
-        )}
+        {playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo isAdmin={isAdmin} />}
       </VideoWrapper>
-      {isAdmin && <BroadcastButtons handleCameraMute={handleCameraMute} handleMicMute={handleMicMute} handleStream={handleStream} />}
-
     </PlayerWrapper >
   )
 }
