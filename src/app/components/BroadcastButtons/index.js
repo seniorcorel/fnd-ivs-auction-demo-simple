@@ -14,9 +14,9 @@ const BroadcastButtons = ({ handleCameraMute, handleMicMute, handleStream }) => 
   const { MUTE, UNMUTE, HIDE_CAMERA, SHOW_CAMERA, SETTINGS, MICROPHONE_UNAVAILABLE, CAMERA_UNAVAILABLE, ALREADY_LIVE } = constants.TOOLTIPS
 
   const isNotBroadcast = isLive && !isLiveBroadcast
-  const audioIsDisabled = !devicePermissions.audio || !audioDevices.length || isNotBroadcast
-  const videoIsDisabled = !devicePermissions.video || !videoDevices.length || isNotBroadcast
-  const goLiveIsDisabled = !bothPermissions || isNotBroadcast
+  const audioIsDisabled = !devicePermissions.audio || !audioDevices.length
+  const videoIsDisabled = !devicePermissions.video || !videoDevices.length
+  const goLiveIsDisabled = !bothPermissions
 
   return (
     <ButtonsWrapper>
@@ -46,8 +46,8 @@ const BroadcastButtons = ({ handleCameraMute, handleMicMute, handleStream }) => 
         <span>
           <BroadcastButton
             onClick={() => bothPermissions ? toggleModal(constants.MODAL_TYPE.SETTINGS) : {}}
-            disabled={!bothPermissions || isNotBroadcast}
-            className={(!bothPermissions || isNotBroadcast) && 'disabled'}
+            disabled={!bothPermissions}
+            className={(!bothPermissions) && 'disabled'}
           >
             <Settings sx={{ width: 18, height: 18 }} />
           </BroadcastButton>

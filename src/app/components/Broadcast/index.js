@@ -22,7 +22,8 @@ export default function Broadcast() {
     setActiveAudioDevice,
     setActiveVideoDevice,
     getListChannels,
-    getStream
+    getStream,
+    setStreamLoading
   } = useActions()
 
   const { cameraOn, mikeOn, devicePermissions, activeVideoDevice, activeAudioDevice, isLive } = useSelector(state => state.stream)
@@ -239,6 +240,8 @@ export default function Broadcast() {
       if (isLive) {
         stopStream(client.current)
       } else {
+        setStreamLoading(true)
+
         client.current.config.ingestEndpoint = is;
 
         // Resume the audio context to prevent audio issues when starting a stream after idling on the page

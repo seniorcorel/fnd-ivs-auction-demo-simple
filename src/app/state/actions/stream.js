@@ -22,8 +22,9 @@ export const getStream = () => {
       // const result = await fetchClient('/getStream', { channelArn }, 'POST')
       const result = await fetch('/api/getStream')
       const res = await result.json()
-      console.log('res', res);
-      dispatch({ type: GET_STREAM_SUCCESS, payload: res })
+      if (res.channelArn) {
+        dispatch({ type: GET_STREAM_SUCCESS, payload: res })
+      }
     } catch (err) {
       console.log(err);
       dispatch({ type: GET_STREAM_FAIL })

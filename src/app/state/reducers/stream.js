@@ -80,7 +80,7 @@ const reducer = (state = initialState, action) => {
         activeAudioDevice: action.payload
       }
     case GET_STREAM_SUCCESS:
-      const { stream } = action.payload
+      const stream = action.payload
       return {
         ...state,
         isLive: true,

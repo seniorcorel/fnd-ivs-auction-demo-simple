@@ -19,11 +19,6 @@ const Wrapper = styled.div(({ theme }) => ({
     flex: 'unset',
   },
 
-  [theme.breakpoints.down('md')]: {
-    height: `calc(100vh - 5.2rem)`,
-    paddingBottom: '1px',
-  },
-
   [landscapeOrientation]: {
     display: 'grid',
     gridTemplateAreas: "'video bidArea' 'video footer'",
