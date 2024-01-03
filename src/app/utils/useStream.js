@@ -1,19 +1,14 @@
-import { useSelector } from 'react-redux';
 import useActions from '../hooks/useActions';
 import constants from '../constants';
 
 const useStream = () => {
-
-  const { isLive, isLiveBroadcast } = useSelector(state => state.stream)
-  const { setStreamLoading, setIsBroadcast, openNotification, setStoppingStream } = useActions()
-
+  const { setStreamLoading, openNotification } = useActions()
   const startStream = async (
     ingestServer,
     streamKey,
     client,
   ) => {
     try {
-      // setStreamLoading(true);
       // Set the ingest server to re-validate it before attempting to start the stream.
       client.config.ingestEndpoint = ingestServer;
 
@@ -21,7 +16,6 @@ const useStream = () => {
       // in some browsers.
       await client.getAudioContext().resume();
       await client.startBroadcast(streamKey);
-      // setIsBroadcast(true)
       //* setStreamLoading(false) will be set at GET_STREAM_SUCCESS action
     } catch (err) {
       switch (err.code) {
@@ -32,28 +26,21 @@ const useStream = () => {
           openNotification(`Error starting stream: ${err.message}.`)
           break;
       }
-      // setIsBroadcast(false)
       setStreamLoading(false)
-
-    } finally {
-      return;
     }
   };
 
-  const stopStream = async (client) => {
+  const stopStream = async (client, getPlaybackUrl) => {
     try {
       setStreamLoading(true)
-      setStoppingStream(true)
       await client.stopBroadcast();
-
       setTimeout(() => {
-        // setStreamLoading(false)
-        setIsBroadcast(false)
-      }, 5000)
+        setStreamLoading(false)
+        getPlaybackUrl()
+      }, 3000);
     } catch (err) {
+      setStreamLoading(false)
       openNotification(`${err.name}: ${err.message}`)
-    } finally {
-      return;
     }
   };
 

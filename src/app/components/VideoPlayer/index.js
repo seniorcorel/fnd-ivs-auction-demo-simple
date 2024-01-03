@@ -18,7 +18,7 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
   const { isAdmin } = useSelector(state => state.auth)
   const { bidResult, status } = useSelector(state => state.auction)
   const { getStream, getChannel, getListChannels, setPlayerHeight } = useActions()
-  const { isLive, devicePermissions, isLiveBroadcast, playbackUrl, cameraOn, isStoppingStream } = useSelector(state => state.stream)
+  const { isLive, devicePermissions, playbackUrl, cameraOn, isStoppingStream } = useSelector(state => state.stream)
   const matchesLandscape = useMediaQuery(landscapeOrientation)
   const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const [isPlaying, setIsPlaying] = useState(false)
@@ -38,7 +38,7 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
 
   useEffect(() => {
     if (!isAdmin) return
-    if (isLive && !isLiveBroadcast) {
+    if (isLive) {
       handleCameraMute()
     }
   }, [isLive])
@@ -111,7 +111,7 @@ const VideoPlayer = ({ canvasRef, handleCameraMute, handleMicMute, handleStream 
 
 
   const renderEmptyVideo = () => {
-    if (isLive && !isLiveBroadcast && !isStoppingStream) {
+    if (isLive && !isStoppingStream) {
       return <StreamRunning />
     } else if (!devicePermissions.video || !devicePermissions.audio) {
       return <EmptyVideo isAdmin={isAdmin} />

@@ -226,19 +226,24 @@ export default function Broadcast() {
     }
   }
 
+  const interval = useRef()
+
   const getPlaybackUrl = async () => {
-    let interval = setInterval(() => {
+    interval.current = setInterval(() => {
       getStream()
-      if (isLive) { clearInterval(interval) }
-    }, 5000)
+    }, 3000)
   }
+
+  useEffect(() => {
+    clearInterval(interval.current)
+  }, [isLive])
 
   const handleStream = async () => {
     const is = localStorage.getItem('ingestServer')
     const sk = localStorage.getItem('streamKey')
     if (is || sk) {
       if (isLive) {
-        stopStream(client.current)
+        stopStream(client.current, getPlaybackUrl)
       } else {
         setStreamLoading(true)
 

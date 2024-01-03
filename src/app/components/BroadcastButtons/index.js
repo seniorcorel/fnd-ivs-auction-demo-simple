@@ -8,12 +8,11 @@ import Tooltip from '../Tooltip'
 
 const BroadcastButtons = ({ handleCameraMute, handleMicMute, handleStream }) => {
   const { toggleModal } = useActions()
-  const { mikeOn, cameraOn, isLive, devicePermissions, streamLoading, videoDevices, audioDevices, isLiveBroadcast } = useSelector(state => state.stream)
+  const { mikeOn, cameraOn, isLive, devicePermissions, streamLoading, videoDevices, audioDevices } = useSelector(state => state.stream)
 
   const bothPermissions = devicePermissions.video && devicePermissions.audio
   const { MUTE, UNMUTE, HIDE_CAMERA, SHOW_CAMERA, SETTINGS, MICROPHONE_UNAVAILABLE, CAMERA_UNAVAILABLE, ALREADY_LIVE } = constants.TOOLTIPS
 
-  const isNotBroadcast = isLive && !isLiveBroadcast
   const audioIsDisabled = !devicePermissions.audio || !audioDevices.length
   const videoIsDisabled = !devicePermissions.video || !videoDevices.length
   const goLiveIsDisabled = !bothPermissions
@@ -53,7 +52,7 @@ const BroadcastButtons = ({ handleCameraMute, handleMicMute, handleStream }) => 
           </BroadcastButton>
         </span>
       </Tooltip>
-      <Tooltip text={isNotBroadcast && ALREADY_LIVE}>
+      <Tooltip text={ALREADY_LIVE}>
         <span>
           <BroadCastButtonLast
             className={`${!goLiveIsDisabled && isLive && 'on'} ${goLiveIsDisabled && 'disabled'}`}

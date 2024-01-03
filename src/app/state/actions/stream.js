@@ -3,7 +3,6 @@ import {
   ADD_AUDIO_DEVICES,
   ADD_VIDEO_DEVICES,
   ADD_DEVICE_PERMISSIONS,
-  TOGGLE_LIVE_BROADCAST,
   TOGGLE_MIKE,
   TOGGLE_CAMERA,
   SET_ACTIVE_VIDEO,
@@ -12,29 +11,22 @@ import {
   SET_STREAM_LOADING,
   TOGGLE_LIVE,
   GET_STREAM_FAIL,
-  IS_STOPPING_STREAM,
 } from '../types'
 
 
 export const getStream = () => {
   return async dispatch => {
     try {
-      // const result = await fetchClient('/getStream', { channelArn }, 'POST')
       const result = await fetch('/api/getStream')
       const res = await result.json()
       if (res.channelArn) {
         dispatch({ type: GET_STREAM_SUCCESS, payload: res })
+      } else {
+        throw new Error()
       }
     } catch (err) {
-      console.log(err);
       dispatch({ type: GET_STREAM_FAIL })
     }
-  }
-}
-
-export const setIsBroadcast = (isLiveBroadcast) => {
-  return dispatch => {
-    dispatch(({ type: TOGGLE_LIVE_BROADCAST, payload: isLiveBroadcast }))
   }
 }
 
@@ -83,11 +75,5 @@ export const setActiveVideoDevice = (device) => {
 export const setActiveAudioDevice = (device) => {
   return dispatch => {
     dispatch(({ type: SET_ACTIVE_AUDIO, payload: device }))
-  }
-}
-
-export const setStoppingStream = (isStoppingStream) => {
-  return dispatch => {
-    dispatch(({ type: IS_STOPPING_STREAM, payload: isStoppingStream }))
   }
 }
