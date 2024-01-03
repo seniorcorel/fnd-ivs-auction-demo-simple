@@ -13,7 +13,7 @@ const useStream = () => {
     client,
   ) => {
     try {
-      setStreamLoading(true);
+      // setStreamLoading(true);
       // Set the ingest server to re-validate it before attempting to start the stream.
       client.config.ingestEndpoint = ingestServer;
 
@@ -21,7 +21,7 @@ const useStream = () => {
       // in some browsers.
       await client.getAudioContext().resume();
       await client.startBroadcast(streamKey);
-      setIsBroadcast(true)
+      // setIsBroadcast(true)
       //* setStreamLoading(false) will be set at GET_STREAM_SUCCESS action
     } catch (err) {
       switch (err.code) {
@@ -32,7 +32,7 @@ const useStream = () => {
           openNotification(`Error starting stream: ${err.message}.`)
           break;
       }
-      setIsBroadcast(false)
+      // setIsBroadcast(false)
       setStreamLoading(false)
 
     } finally {
