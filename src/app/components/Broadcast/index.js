@@ -21,7 +21,6 @@ export default function Broadcast() {
     setActiveAudioDevice,
     setActiveVideoDevice,
     getStream,
-    setStreamLoading
   } = useActions()
 
   const { cameraOn, mikeOn, devicePermissions, activeVideoDevice, activeAudioDevice, isLive } = useSelector(state => state.stream)
@@ -44,36 +43,6 @@ export default function Broadcast() {
       width: canvas.width / 8,
       height: canvas.width / 8,
       type: 'IMAGE',
-    }
-  }
-
-  const getVideoDevices = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices()
-      const videoDevices = devices.filter(
-        (device) => device.kind === 'videoinput'
-      )
-      if (!videoDevices.length) {
-        openNotification(constants.NOTIFICATION_MESSAGES.NO_VIDEO)
-      }
-      return videoDevices
-    } catch (err) {
-      openNotification(err.message)
-    }
-  }
-
-  const getAudioDevices = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices()
-      const audioDevices = devices.filter(
-        (device) => device.kind === 'audioinput'
-      )
-      if (!audioDevices.length) {
-        openNotification(constants.NOTIFICATION_MESSAGES.NO_AUDIO)
-      }
-      return audioDevices
-    } catch (err) {
-      openNotification(err.message)
     }
   }
 
@@ -128,42 +97,32 @@ export default function Broadcast() {
     }
   }
 
-  const initLayers = async () => {
-    client.current = IVSBroadcastClient.create({
-      streamConfig: IVSBroadcastClient.STANDARD_LANDSCAPE,
-    });
-
-    client.current.attachPreview(canvasRef.current);
-    // If the user has not provided permissions, get them.
-    await handlePermissions()
-
+  const getDevices = async () => {
     let vd
     let ad
 
     try {
       // Get video devices
-      vd = await getVideoDevices()
-      addVideoDevices(vd)
-
-      // Get audio devices
-      ad = await getAudioDevices()
-      addAudioDevices(ad)
-    } catch (err) {
-      openNotification(constants.NOTIFICATION_MESSAGES.DEVICE_NOT_FOUND)
-    }
-
-    try {
+      const videoDevices = await navigator.mediaDevices.enumerateDevices()
+      vd = videoDevices.filter(
+        (device) => device.kind === 'videoinput'
+      )
       // Render the video device on the broadcast canvas
       setActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
       renderActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
+      addVideoDevices(vd)
 
+      // Get audio devices
+      const audioDevices = await navigator.mediaDevices.enumerateDevices()
+      ad = audioDevices.filter(
+        (device) => device.kind === 'audioinput'
+      )
       // Render the audio device
       setActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
-
-      //Prashant ==> We need this line for initialization. but the problem is it is being rendered whenever streaming stops
       renderActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
+      addAudioDevices(ad)
     } catch (err) {
-      openNotification(constants.NOTIFICATION_MESSAGES.CANVAS_FAIL)
+      openNotification(err)
     }
   }
 
@@ -234,6 +193,17 @@ export default function Broadcast() {
     } else {
       openNotification(constants.NOTIFICATION_MESSAGES.NO_STREAM_KEY)
     }
+  }
+
+  const initLayers = async () => {
+    client.current = IVSBroadcastClient.create({
+      streamConfig: IVSBroadcastClient.STANDARD_LANDSCAPE,
+    });
+
+    client.current.attachPreview(canvasRef.current);
+    // If the user has not provided permissions, get them.
+    await handlePermissions()
+    await getDevices()
   }
 
   return (

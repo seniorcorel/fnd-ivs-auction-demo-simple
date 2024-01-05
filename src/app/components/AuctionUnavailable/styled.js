@@ -56,7 +56,7 @@ export const AuctionUnAvailableWrapper = styled.div`
   position: absolute;
   right: 2rem;
   top: calc(50%);
-  transform: translateY(calc(-50% - 2.625rem));
+  transform: translateY(-50%);
   height: 100%;
   max-height: 30rem;
 `

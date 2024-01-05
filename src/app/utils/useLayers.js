@@ -17,26 +17,8 @@ import { useState } from 'react'
 const useLayers = (initialLayer) => {
   const [layers, setLayers] = useState([initialLayer]);
 
-  // Update Layer
-  // Adds a layer to the layer array and draws it to the canvas
-  const updateLayer = async (layer, client) => {
-    switch (layer.type) {
-      case 'VIDEO':
-        updateSDKLayer(layer, client);
-        break;
-      case 'SCREENSHARE':
-        updateSDKLayer(layer, client);
-        break;
-      case 'IMAGE':
-        updateSDKLayer(layer, client);
-        break;
-      default:
-        break;
-    }
-  };
-
   // Updates a layer
-  const updateSDKLayer = async (layer, client) => {
+  const updateLayer = async (layer, client) => {
     try {
       const { name, device, type, ...layerProps } = layer;
       await client.updateVideoDeviceComposition(name, layerProps);
@@ -47,24 +29,11 @@ const useLayers = (initialLayer) => {
   };
 
   // Add Layer
-  // Adds a layer to the layer array and draws it to the canvas
   const addLayer = async (layer, client) => {
-    try {
-      switch (layer.type) {
-        case 'VIDEO':
-          await addVideoLayer(layer, client);
-          break;
-        case 'SCREENSHARE':
-          await addScreenshareLayer(layer, client);
-          break;
-        case 'IMAGE':
-          await addImageLayer(layer, client);
-          break;
-        default:
-          break;
-      }
-    } catch (err) {
-      console.error(err);
+    if (layer.type === 'VIDEO') {
+      addVideoLayer(layer, client);
+    } else if (layer.type === 'image') {
+      addImageLayer(layer, client);
     }
   };
 
@@ -79,8 +48,6 @@ const useLayers = (initialLayer) => {
           await removeLayer(layer, client);
         }
 
-        // Width: 1920, Height: 1080 is 16:9 "1080p"
-        // Width: 3840, Height: 2160 is 16:9 "4k"
         const cameraStream = await navigator.mediaDevices.getUserMedia({
           video: {
             deviceId: { exact: device.deviceId },
@@ -106,24 +73,6 @@ const useLayers = (initialLayer) => {
     }
   };
 
-  // Adds a screenshare layer
-  const addScreenshareLayer = async (layer, client) => {
-    try {
-      if (layer.visible) {
-        const { name, stream, ...layerProps } = layer;
-
-        // If a layer with the same name is already added, remove it
-        if (client.getVideoInputDevice(layer.name)) {
-          await removeLayer(layer, client);
-        }
-
-        await client.addVideoInputDevice(stream, name, layerProps);
-      }
-      setLayers((prevState) => [...prevState, layer]);
-    } catch (err) {
-      throw Error(err);
-    }
-  };
 
   // Adds an image layer
   const addImageLayer = async (layer, client) => {
@@ -151,7 +100,6 @@ const useLayers = (initialLayer) => {
     }
   };
 
-  // Remove layer
   // Removes a layer from the layer array and removes it from the canvas
   const removeLayer = async (layer, client) => {
     if (!layer) return;
@@ -163,15 +111,6 @@ const useLayers = (initialLayer) => {
           const videoStream = client.getVideoInputDevice(name);
           if (videoStream) {
             for (const track of videoStream.source.getVideoTracks()) {
-              track.stop();
-            }
-          }
-          await client.removeVideoInputDevice(name);
-          break;
-        case 'SCREENSHARE':
-          const screenShareStream = client.getVideoInputDevice(name);
-          if (screenShareStream) {
-            for (const track of screenShareStream.source.getVideoTracks()) {
               track.stop();
             }
           }
@@ -191,7 +130,6 @@ const useLayers = (initialLayer) => {
     }
   };
 
-  // Set layer
   // Sets a layer given a layer reference. Returns void.
   const setLayer = (layer) => {
     const foundIndex = layers.findIndex((l) => l.name === layer.name);
@@ -201,26 +139,10 @@ const useLayers = (initialLayer) => {
     });
   };
 
-  // Removes all layers and resets to default state
-  const resetLayers = async (client) => {
-    const localLayers = layers;
-    for (let i = 0; i < localLayers.length; i++) {
-      const layer = localLayers[i];
-      if (!layer) break;
-      try {
-        await removeLayer(layer, client);
-        // setLayers((prevState) => prevState.filter((layer) => layer.name !== name));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
-
   return {
     updateLayer,
     addLayer,
     removeLayer,
-    resetLayers,
   };
 };
 
