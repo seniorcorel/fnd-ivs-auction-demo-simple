@@ -1,4 +1,4 @@
-import { AUCTION_STATUS, BID, BID_RESULT } from '../types'
+import { AUCTION_STATUS, BID, BID_RESULT, SET_ADMIN } from '../types'
 
 export const changeAuctionStatus = ({ status, bidResult = null, product = null, maxBid = null }) => {
   return dispatch => {
@@ -39,5 +39,11 @@ export const bidAuction = ({ bidValue, bidSender, bidResult, product, username }
 export const changeBidResult = (bidResult) => {
   return dispatch => {
     dispatch({ type: BID_RESULT, payload: bidResult })
+  }
+}
+
+export const setAdmin = () => {
+  return dispatch => {
+    dispatch({ type: SET_ADMIN })
   }
 }

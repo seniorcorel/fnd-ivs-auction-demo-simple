@@ -29,6 +29,7 @@ export const GET_AUTHENTICATED_USER_SUCCESS = 'GET_AUTHENTICATED_USER_SUCCESS'
 export const AUCTION_STATUS = constants.AUCTION_STATUS
 export const BID = 'BID'
 export const BID_RESULT = 'BID_RESULT'
+export const SET_ADMIN = 'SET_ADMIN'
 
 export const SHOW_IMAGE = 'SHOW_IMAGE'
 

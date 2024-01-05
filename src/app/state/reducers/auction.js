@@ -1,5 +1,5 @@
 import constants from '../../constants'
-import { BID, BID_RESULT, SIGN_IN_SUCCESS, LOG_OUT, GET_AUTHENTICATED_USER_SUCCESS } from '../types'
+import { BID, BID_RESULT, SIGN_IN_SUCCESS, LOG_OUT, GET_AUTHENTICATED_USER_SUCCESS, SET_ADMIN } from '../types'
 import { HYDRATE } from 'next-redux-wrapper'
 const { NOT_STARTED, STARTED, FINISHED } = constants.AUCTION_STATUS
 
@@ -88,6 +88,11 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 bidResult: action.payload
+            }
+        case SET_ADMIN:
+            return {
+                ...state,
+                isAdmin: true
             }
         case SIGN_IN_SUCCESS:
         case GET_AUTHENTICATED_USER_SUCCESS:

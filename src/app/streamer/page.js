@@ -1,7 +1,7 @@
 "use client"
 
 /* eslint-disable no-console */
-import React from 'react'
+import React, { useEffect } from 'react'
 import Wrapper from './styled'
 import Modal from '../components/Modal'
 import useActions from '../hooks/useActions'
@@ -18,11 +18,16 @@ const Streamer = () => {
   const {
     toggleModal,
     closeNotification,
+    setAdmin
   } = useActions()
   const { type, isOpen } = useSelector(state => state.modal)
   const { isOpen: notificationOpen, type: notificationType, message } = useSelector(state => state.notification)
   const { status, bidResult } = useSelector(state => state.auction)
   const { isLive } = useSelector(state => state.stream)
+
+  useEffect(() => {
+    setAdmin()
+  }, [])
 
   return (
     <Wrapper>
