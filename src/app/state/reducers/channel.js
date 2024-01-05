@@ -1,5 +1,4 @@
 import {
-    CREATE_CHANNEL,
     GET_CHANNEL,
     GET_CHANNEL_FAIL,
     GET_CHANNEL_SUCCESS,
@@ -16,7 +15,7 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_CHANNEL || CREATE_CHANNEL:
+        case GET_CHANNEL:
             return {
                 ...state,
                 loading: true

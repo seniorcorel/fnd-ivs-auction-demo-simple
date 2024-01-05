@@ -8,7 +8,7 @@ import BiddingWrapper from '../BiddingCard/BiddingWrapper'
 import { bidTypes } from '../BidResult'
 import Confetti from '../Confetti'
 
-const SignedInUser = ({ status }) => {
+const UserCard = ({ status }) => {
   const { bidResult } = useSelector(state => state.auction)
   const { sendBid } = useUser('user')
 
@@ -33,4 +33,4 @@ const SignedInUser = ({ status }) => {
   )
 }
 
-export default SignedInUser
+export default UserCard

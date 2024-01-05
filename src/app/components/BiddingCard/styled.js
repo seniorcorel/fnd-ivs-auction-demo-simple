@@ -1,6 +1,5 @@
 import { Card, Button, CardContent, TextField, Typography } from '@mui/material'
 import styled from 'styled-components'
-import { landscapeOrientation } from '../../styles/device'
 
 export const FilledQuantity = styled.div`
   height: 0.25rem;
@@ -57,20 +56,6 @@ export const CardWrapper = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.custom.tertiary900,
 }))
 
-export const BidWrapperSm = styled.div`
-  background-color: ${({ theme }) => theme.palette.custom.tertiary800};
-  display: flex;
-  flex-direction: column;
-  border-radius: 1rem;
-  overflow-y: scroll;
-  color: white;
-  flex-grow: 1;
-  grid-area: bidArea;
-
-  ${landscapeOrientation} {
-    width: calc(40vw - 2.25rem);
-  }
-`
 
 export const BidWrapper = styled.div`
   position: relative;

@@ -1,6 +1,5 @@
 import constants from "../../constants"
 
-export const CREATE_CHANNEL = 'CREATE_CHANNEL'
 export const GET_CHANNEL = 'GET_CHANNEL'
 export const GET_CHANNEL_SUCCESS = 'GET_CHANNEL_SUCCESS'
 export const GET_CHANNEL_FAIL = 'GET_CHANNEL_FAIL'
@@ -13,17 +12,10 @@ export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const OPEN_NOTIFICATION = 'OPEN_NOTIFICATION'
 export const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION'
 
-export const GET_AUTHENTICATED_USER_SUCCESS = 'GET_AUTHENTICATED_USER_SUCCESS'
-
 export const AUCTION_STATUS = constants.AUCTION_STATUS
 export const BID = 'BID'
 export const BID_RESULT = 'BID_RESULT'
 export const SET_ADMIN = 'SET_ADMIN'
-
-export const SHOW_IMAGE = 'SHOW_IMAGE'
-
-export const OPEN_PAGE = 'OPEN_PAGE'
-export const SET_PLAYER_HEIGHT = 'SET_PLAYER_HEIGHT'
 
 export const TOGGLE_CAMERA = 'TOGGLE_CAMERA'
 export const TOGGLE_MIKE = 'TOGGLE_MIKE'

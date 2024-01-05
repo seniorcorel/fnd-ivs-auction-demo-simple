@@ -8,7 +8,7 @@ import useActions from '../hooks/useActions'
 import { useSelector } from 'react-redux'
 import Notification from '../components/Notification'
 import constants from '../constants'
-import SignedInUser from '../components/SignedInUser'
+import UserCard from '../components/UserCard'
 import VideoPlayer from '../components/VideoPlayer'
 
 const Viewers = () => {
@@ -37,7 +37,7 @@ const Viewers = () => {
         closable={type !== constants.MODAL_TYPE.END_AUCTION}
       />
       <VideoPlayer />
-      <SignedInUser status={status} />
+      <UserCard status={status} />
     </Wrapper>
   )
 }
