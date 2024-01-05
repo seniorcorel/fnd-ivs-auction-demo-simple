@@ -16,7 +16,6 @@ const BiddingCardUser = ({ sendBid }) => {
     message: ''
   })
 
-
   const handleError = (newP) => {
     const hasDecimal = 0 <= newP.toString().indexOf('.')
     let newPrice = parseFloat(newP)

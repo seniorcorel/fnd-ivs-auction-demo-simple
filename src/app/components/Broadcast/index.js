@@ -107,20 +107,22 @@ export default function Broadcast() {
       vd = videoDevices.filter(
         (device) => device.kind === 'videoinput'
       )
+      addVideoDevices(vd)
+
       // Render the video device on the broadcast canvas
       setActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
       renderActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
-      addVideoDevices(vd)
 
       // Get audio devices
       const audioDevices = await navigator.mediaDevices.enumerateDevices()
       ad = audioDevices.filter(
         (device) => device.kind === 'audioinput'
       )
+      addAudioDevices(ad)
+
       // Render the audio device
       setActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
       renderActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
-      addAudioDevices(ad)
     } catch (err) {
       openNotification(err)
     }

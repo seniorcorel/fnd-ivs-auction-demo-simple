@@ -38,11 +38,8 @@ const SettingsModal = () => {
   }
 
   const handleDeviceChange = () => {
-    if (ingestServerInput || streamKeyInput) {
-
-      localStorage.setItem('streamKey', streamKeyInput)
-      localStorage.setItem('ingestServer', ingestServerInput)
-    }
+    localStorage.setItem('streamKey', streamKeyInput)
+    localStorage.setItem('ingestServer', ingestServerInput)
     handleVideoDeviceSelect(selectedVideoDevice)
     handleAudioDeviceSelect(selectedAudioDevice)
     toggleModal()

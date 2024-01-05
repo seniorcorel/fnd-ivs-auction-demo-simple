@@ -1,4 +1,3 @@
-import { useState } from 'react';
 
 // Keeps track of initialized audio devices.
 
@@ -9,7 +8,7 @@ import { useState } from 'react';
 //   muted
 // }
 
-const useMixer = (initialDevice) => {
+const useMixer = () => {
 
   // Add Device
   // Adds an audio device to the mixer
@@ -72,7 +71,6 @@ const useMixer = (initialDevice) => {
     } else {
       return unmuteMixerDevice(microphoneTrack);
     }
-
 
   };
 
