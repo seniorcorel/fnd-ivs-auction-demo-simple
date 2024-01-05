@@ -4,7 +4,6 @@ import constants from '../../constants'
 import { ReportProblemRounded } from '@mui/icons-material'
 import TvOffIcon from './TvOffIcon'
 
-
 const EmptyVideo = ({ isAdmin }) => (
   <EmptyVideoWrapper>
     {isAdmin ? (

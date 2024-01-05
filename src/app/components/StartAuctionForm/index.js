@@ -16,7 +16,6 @@ import { TextFieldBid } from './styled'
 
 const StartAuctionForm = () => {
   const { PRODUCT_NAME, DURATION, STARTING_BID, DESCRIPTION, IMAGE_LINK } = constants.PRODUCT
-  const { loading } = useSelector(state => state.auth)
   const { toggleModal, changeAuctionStatus, openNotification } = useActions()
   const [imageError, setImageError] = useState(false)
   const [imageLoading, setImageLoading] = useState(false)
@@ -173,7 +172,7 @@ const StartAuctionForm = () => {
           type="submit"
           variant="contained"
           fullWidth={true}
-          disabled={loading || imageLoading}
+          disabled={imageLoading}
           sx={{ pt: 1.25, pb: 1.25 }}
         >
           {constants.START_AUCTION}

@@ -11,7 +11,6 @@ import {
 } from './helper'
 import useActions from '../hooks/useActions'
 import constants from '../constants'
-import { duration } from '@mui/material'
 const { STARTED } = constants.AUCTION_STATUS
 
 const useAdmin = () => {

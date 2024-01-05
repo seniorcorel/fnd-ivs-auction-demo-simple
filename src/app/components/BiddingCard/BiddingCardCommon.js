@@ -19,14 +19,14 @@ const BiddingCardCommon = () => {
   const [timeLeft, setTimeLeft] = useState(null)
   const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const { status, product, maxBid } = useSelector(state => state.auction)
-  const { authenticated: isAuthenticated, isAdmin } = useSelector(state => state.auth)
+  const { isAdmin } = useSelector(state => state.auction)
 
 
   const auctionEndTimeMilliSeconds = (product.auctionStartTimeMilliSeconds) + (product.durationSeconds * 1000)
   const durationMiliseconds = product.durationSeconds * 1000
 
   //if auction started and is a user, hide image (because there is no space)
-  const auctionStartedUser = (status === constants.AUCTION_STATUS.STARTED) && (isAuthenticated && !isAdmin)
+  const auctionStartedUser = (status === constants.AUCTION_STATUS.STARTED) && (!isAdmin)
 
   return (
     <>

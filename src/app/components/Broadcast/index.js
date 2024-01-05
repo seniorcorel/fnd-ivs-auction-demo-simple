@@ -258,7 +258,6 @@ export default function Broadcast() {
       openNotification(constants.NOTIFICATION_MESSAGES.NO_STREAM_KEY)
     }
   }
-  const { status, bidResult } = useSelector(state => state.auction)
 
   return (
     <>

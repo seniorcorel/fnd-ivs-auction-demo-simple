@@ -10,7 +10,6 @@ const CountDownTimer = ({ auctionEndTimeMilliSeconds, setTimeLeft }) => {
   const { maxBid, product } = useSelector(state => state.auction)
 
   const renderer = (props) => {
-    console.log('renderer:', props);
     const { minutes, hours, seconds, completed, total } = props
     setTimeLeft(total)
     if (completed) {

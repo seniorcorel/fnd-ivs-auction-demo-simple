@@ -1,7 +1,6 @@
 import {
   GET_CHANNEL_SUCCESS,
   GET_CHANNEL_FAIL,
-  GET_LIST_CHANNELS_SUCCESS,
   SET_BROADCAST_KEYS
 } from '../types'
 
@@ -14,20 +13,6 @@ export const setBroadcastKeys = (keys) => {
       type: SET_BROADCAST_KEYS,
       payload: keys
     })
-  }
-}
-
-export const getListChannels = () => {
-  return async dispatch => {
-    try {
-      const result = await fetchClient('/getListChannels', null, 'POST')
-      if (result.length >= 1) {
-        dispatch({ type: GET_LIST_CHANNELS_SUCCESS, payload: result[0].arn })
-      }
-      return result
-    } catch (error) {
-      return error
-    }
   }
 }
 

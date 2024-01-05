@@ -7,7 +7,6 @@ import constants from '../../constants'
 import StartAuctionForm from '../../components/StartAuctionForm'
 import ProductModal from '../ProductModal'
 import SettingsModal from '../SettingsModal'
-import SettingsPage from '../SettingsPage'
 import EndAuctionConfirmation from '../EndAuctionConfirmation'
 
 const Modal = ({
@@ -33,7 +32,6 @@ const Modal = ({
       [MODAL_TYPE.START_AUCTION]: <StartAuctionForm />,
       [MODAL_TYPE.PRODUCT]: <ProductModal />,
       [MODAL_TYPE.SETTINGS]: <SettingsModal />,
-      [MODAL_TYPE.BROADCAST]: <SettingsPage />,
     }
 
     return content[modalType]

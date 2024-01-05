@@ -3,7 +3,6 @@ import {
     GET_CHANNEL,
     GET_CHANNEL_FAIL,
     GET_CHANNEL_SUCCESS,
-    GET_LIST_CHANNELS_SUCCESS,
     SET_BROADCAST_KEYS,
 } from '../types'
 
@@ -17,11 +16,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_LIST_CHANNELS_SUCCESS:
-            return {
-                ...state,
-                channelArn: action.payload
-            }
         case GET_CHANNEL || CREATE_CHANNEL:
             return {
                 ...state,
