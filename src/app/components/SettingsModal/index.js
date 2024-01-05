@@ -11,7 +11,7 @@ const SettingsModal = () => {
   const ingestServerEl = useRef()
   const streamKeyEl = useRef()
 
-  const { setActiveAudioDevice, setActiveVideoDevice, toggleModal, setBroadcastKeys } = useActions()
+  const { setActiveAudioDevice, setActiveVideoDevice, toggleModal } = useActions()
   const { videoDevices, audioDevices, activeVideoDevice, activeAudioDevice } = useSelector(state => state.stream)
   // const { ingestServer, streamKey } = useSelector(state => state.channel)
 
@@ -39,9 +39,7 @@ const SettingsModal = () => {
 
   const handleDeviceChange = () => {
     if (ingestServerInput || streamKeyInput) {
-      // setBroadcastKeys({
-      //   ingestServer: ingestServerInput, streamKey: streamKeyInput
-      // })
+
       localStorage.setItem('streamKey', streamKeyInput)
       localStorage.setItem('ingestServer', ingestServerInput)
     }

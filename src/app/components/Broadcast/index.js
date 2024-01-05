@@ -21,7 +21,6 @@ export default function Broadcast() {
     addDevicePermissions,
     setActiveAudioDevice,
     setActiveVideoDevice,
-    getListChannels,
     getStream,
     setStreamLoading
   } = useActions()
