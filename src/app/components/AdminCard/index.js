@@ -8,16 +8,16 @@ import BiddingWrapper from '../BiddingCard/BiddingWrapper'
 import AuctionUnAvailable, { userTypes } from '../AuctionUnavailable'
 
 const AdminCard = () => {
-  // const { startAuction, endAuction } = useAdmin()
+  const { startAuction, endAuction } = useAdmin()
   const { status, bidResult, maxBid } = useSelector(state => state.auction)
 
-  // useEffect(() => {
-  //   if (status === constants.AUCTION_STATUS.STARTED) {
-  //     startAuction()
-  //   } else if (status === constants.AUCTION_STATUS.FINISHED) {
-  //     endAuction(bidResult, maxBid.bidSender)
-  //   }
-  // }, [status])
+  useEffect(() => {
+    if (status === constants.AUCTION_STATUS.STARTED) {
+      startAuction()
+    } else if (status === constants.AUCTION_STATUS.FINISHED) {
+      endAuction(bidResult, maxBid.bidSender)
+    }
+  }, [status])
 
   if (status === constants.AUCTION_STATUS.NOT_STARTED) {
     return (<AuctionUnAvailable userType={userTypes.ADMIN} />)

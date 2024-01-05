@@ -2,7 +2,7 @@ import { IvschatClient, CreateChatTokenCommand, ChatTokenCapability } from "@aws
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request) {
-  const { username } = await request.json();
+  const { isAdmin } = await request.json();
   const userID = uuidv4()
 
   const client = new IvschatClient({
@@ -13,10 +13,11 @@ export async function POST(request) {
     userId: userID, // required
     capabilities: [ChatTokenCapability.SEND_MESSAGE],
     attributes: {
-      displayName: username,
+      displayName: isAdmin ? 'admin' : `user-${userID}`,
     },
   };
   const command = new CreateChatTokenCommand(input);
   const createChatTokenResponse = await client.send(command);
   return Response.json(createChatTokenResponse);
+
 }

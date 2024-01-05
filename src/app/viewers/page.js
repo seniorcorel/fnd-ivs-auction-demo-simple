@@ -8,13 +8,13 @@ import useActions from '../hooks/useActions'
 import { useSelector } from 'react-redux'
 import Notification from '../components/Notification'
 import constants from '../constants'
-import AdminCard from '../components/AdminCard'
 import { PlayerWrapper } from '../components/VideoPlayer/styled'
 import BidResult from '../components/BidResult'
 import LiveLabel from '../components/LiveLabel'
-import Broadcast from '../components/Broadcast'
+import SignedInUser from '../components/SignedInUser'
+import VideoPlayer from '../components/VideoPlayer'
 
-const Streamer = () => {
+const Viewers = () => {
   const {
     toggleModal,
     closeNotification,
@@ -39,13 +39,10 @@ const Streamer = () => {
         type={type}
         closable={type !== constants.MODAL_TYPE.END_AUCTION}
       />
-      <PlayerWrapper>
-        {isLive && <LiveLabel />}
-        <Broadcast />
-      </PlayerWrapper>
-      <AdminCard status={status} />
+      <VideoPlayer />
+      <SignedInUser status={status} />
     </Wrapper>
   )
 }
 
-export default Streamer
+export default Viewers

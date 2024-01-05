@@ -9,9 +9,8 @@ import { bidTypes } from '../BidResult'
 import Confetti from '../Confetti'
 
 const SignedInUser = ({ status }) => {
-  const username = useSelector(state => state.auth.username)
   const { bidResult } = useSelector(state => state.auction)
-  const { sendBid } = useUser(username)
+  const { sendBid } = useUser('user')
 
   if (status === constants.AUCTION_STATUS.NOT_STARTED) {
     return (

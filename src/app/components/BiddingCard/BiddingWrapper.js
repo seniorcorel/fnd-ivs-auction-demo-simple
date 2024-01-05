@@ -10,20 +10,9 @@ import { landscapeOrientation } from '../../styles/device'
 const BiddingWrapper = ({ children }) => {
   const biddingCardRef = useRef()
   const { bidResult, status } = useSelector(state => state.auction)
-  const { setShowImage } = useActions()
   const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const matchesLandscape = useMediaQuery(landscapeOrientation)
 
-  const handleResize = () => {
-    if (matches) {
-      const { y, height } = biddingCardRef.current.getBoundingClientRect()
-      setShowImage({ showImage: (y - 48) > 0, cardHeight: height })
-    }
-  }
-
-  useEffect(() => {
-    handleResize()
-  }, [status])
 
   return (
     matches ?

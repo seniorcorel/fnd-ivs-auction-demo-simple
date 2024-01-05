@@ -8,7 +8,6 @@ import constants from "@/app/constants";
 import useMixer from "@/app/utils/useMixer";
 import useStream from "@/app/utils/useStream";
 import useLayers from "@/app/utils/useLayers";
-import EmptyVideo from "../VideoPlayer/EmptyVideo";
 import BroadcastButtons from "../BroadcastButtons";
 import { getConfigFromResolution } from "@/app/utils/broadcast";
 
@@ -21,7 +20,10 @@ export default function Broadcast() {
     addVideoDevices,
     addDevicePermissions,
     setActiveAudioDevice,
-    setActiveVideoDevice
+    setActiveVideoDevice,
+    getListChannels,
+    getStream,
+    setStreamLoading
   } = useActions()
 
   const { cameraOn, mikeOn, devicePermissions, activeVideoDevice, activeAudioDevice, isLive } = useSelector(state => state.stream)
@@ -213,7 +215,6 @@ export default function Broadcast() {
     }
 
     const camOffLayer = getCamOffLayer(canvas)
-
     if (cameraOn) {
       await removeLayer(camLayer, client.current)
       await addLayer(camOffLayer, client.current)
@@ -225,29 +226,40 @@ export default function Broadcast() {
     }
   }
 
+  const interval = useRef()
+
+  const getPlaybackUrl = async () => {
+    interval.current = setInterval(() => {
+      getStream()
+    }, 3000)
+  }
+
+  useEffect(() => {
+    clearInterval(interval.current)
+  }, [isLive])
+
   const handleStream = async () => {
-    if (ingestServer && streamKey) {
+    const is = localStorage.getItem('ingestServer')
+    const sk = localStorage.getItem('streamKey')
+    if (is || sk) {
       if (isLive) {
-        stopStream(client.current)
+        stopStream(client.current, getPlaybackUrl)
       } else {
-        startStream(ingestServer, streamKey, client.current)
+        setStreamLoading(true)
+
+        client.current.config.ingestEndpoint = is;
+
+        // Resume the audio context to prevent audio issues when starting a stream after idling on the page
+        // in some browsers.
+        await client.current.getAudioContext().resume();
+        await client.current.startBroadcast(sk);
+        getPlaybackUrl()
       }
     } else {
       openNotification(constants.NOTIFICATION_MESSAGES.NO_STREAM_KEY)
     }
   }
-
   const { status, bidResult } = useSelector(state => state.auction)
-
-
-
-  const renderEmptyVideo = () => {
-    if (isLive && !isLiveBroadcast && !isStoppingStream) {
-      return <StreamRunning />
-    } else if (!devicePermissions.video || !devicePermissions.audio) {
-      return <EmptyVideo isAdmin={true} />
-    }
-  }
 
   return (
     <>
@@ -264,7 +276,6 @@ export default function Broadcast() {
         }}
       />
       <VideoWrapper>
-        {renderEmptyVideo()}
         <CanvasWrapper
           key='STREAM_PREVIEW_VIDEO'
           id='cam-video-preview'

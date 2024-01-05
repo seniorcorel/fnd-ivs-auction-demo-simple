@@ -17,7 +17,6 @@ const {
 const BiddingCardCommon = () => {
   const { toggleModal } = useActions()
   const [timeLeft, setTimeLeft] = useState(null)
-  const { showImage } = useSelector(state => state.showImage)
   const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const { status, product, maxBid } = useSelector(state => state.auction)
   const { authenticated: isAuthenticated, isAdmin } = useSelector(state => state.auth)
@@ -31,7 +30,7 @@ const BiddingCardCommon = () => {
 
   return (
     <>
-      {product.imageLink && showImage && matches && !auctionStartedUser && (
+      {product.imageLink && matches && !auctionStartedUser && (
         <Product>
           <ProductImage src={product.imageLink} />
         </Product>
