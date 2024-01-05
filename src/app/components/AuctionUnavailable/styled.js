@@ -1,6 +1,7 @@
 import { Button, Card } from '@mui/material'
 import styled from 'styled-components'
 import { landscapeOrientation } from '../../styles/device'
+import { tertiary800 } from '../../styles/colours'
 
 export const AuctionNotAvailable = styled.div`
   display: flex;
@@ -67,5 +68,5 @@ export const CardWrapper = styled(Card)`
   border-radius: 1rem;
   border-color: ${({ theme }) => theme.palette.primary.p600};
   color: white;
-  background-color: ${({ theme }) => theme.palette.custom.tertiary800};
+  background-color: ${tertiary800};
 `

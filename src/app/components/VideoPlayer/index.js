@@ -7,41 +7,27 @@ import LiveLabel from '../LiveLabel'
 import { useMediaQuery } from '@mui/material'
 import { landscapeOrientation } from '../../styles/device'
 import BidResult from '../BidResult'
+import Script from 'next/script'
 
 const VideoPlayer = () => {
   const playerRef = useRef(null)
   const videoRef = useRef(null)
   const playerWrapperRef = useRef()
   const { isAdmin } = useSelector(state => state.auth)
-  const { bidResult, status } = useSelector(state => state.auction)
-  const { getStream, setPlayerHeight } = useActions()
+  const { bidResult } = useSelector(state => state.auction)
+  const { getStream } = useActions()
   const { isLive, playbackUrl } = useSelector(state => state.stream)
   const matchesLandscape = useMediaQuery(landscapeOrientation)
-  const matches = useMediaQuery((theme) => theme.breakpoints.up('md'))
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const interval = useRef();
-
-  const callGetStream = () => {
-    interval.current = setInterval(() => {
+  useEffect(() => {
+    let interval = setInterval(() => {
       getStream()
     }, 5000)
-  }
-
-  useEffect(() => {
-    callGetStream()
     return () => {
       clearInterval(interval.current)
     }
   }, [])
-
-  useEffect(() => {
-    if (playbackUrl) {
-      clearInterval(interval.current)
-    } else {
-      callGetStream()
-    }
-  }, [playbackUrl])
 
   useEffect(() => {
     if (isPlaying) {
@@ -51,14 +37,10 @@ const VideoPlayer = () => {
 
   useEffect(() => {
     if (!playbackUrl) return
-    const { IVSPlayer } = window
     const { ENDED, PLAYING, READY } = IVSPlayer.PlayerState
     const { ERROR } = IVSPlayer.PlayerEventType
-    const {
-      create: createMediaPlayer,
-    } = IVSPlayer
 
-    playerRef.current = createMediaPlayer()
+    playerRef.current = IVSPlayer.create()
     playerRef.current.attachHTMLVideoElement(videoRef.current)
     playerRef.current.load(playbackUrl)
     playerRef.current.play()
@@ -80,22 +62,25 @@ const VideoPlayer = () => {
     })
   }, [videoRef, playbackUrl])
 
-  useEffect(() => {
-    if (matches) {
-      const { height } = playerWrapperRef.current.getBoundingClientRect()
-      setPlayerHeight(height)
-    }
-  }, [status])
-
-
   return (
-    <PlayerWrapper ref={playerWrapperRef}>
-      {matchesLandscape && bidResult && <BidResult />}
-      {isLive && <LiveLabel />}
-      <VideoWrapper>
-        {playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo isAdmin={isAdmin} />}
-      </VideoWrapper>
-    </PlayerWrapper >
+    <>
+      <Script
+        src="https://player.live-video.net/1.23.0/amazon-ivs-player.min.js"
+        onLoad={() => {
+          if (IVSPlayer.isPlayerSupported) {
+            playerRef.current = IVSPlayer.create()
+            playerRef.current.attachHTMLVideoElement(videoRef.current)
+          }
+        }}
+      />
+      <PlayerWrapper ref={playerWrapperRef}>
+        {matchesLandscape && bidResult && <BidResult />}
+        {isLive && <LiveLabel />}
+        <VideoWrapper>
+          {playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo isAdmin={isAdmin} />}
+        </VideoWrapper>
+      </PlayerWrapper >
+    </>
   )
 }
 
