@@ -18,8 +18,7 @@ const Viewers = () => {
   } = useActions()
   const { type, isOpen } = useSelector(state => state.modal)
   const { isOpen: notificationOpen, type: notificationType, message } = useSelector(state => state.notification)
-  const { status, bidResult } = useSelector(state => state.auction)
-  const { isLive } = useSelector(state => state.stream)
+  const { status } = useSelector(state => state.auction)
 
   return (
     <Wrapper>

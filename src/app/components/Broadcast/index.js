@@ -9,7 +9,6 @@ import useMixer from "@/app/utils/useMixer";
 import useStream from "@/app/utils/useStream";
 import useLayers from "@/app/utils/useLayers";
 import BroadcastButtons from "../BroadcastButtons";
-import { getConfigFromResolution } from "@/app/utils/broadcast";
 
 export default function Broadcast() {
   const {
@@ -34,10 +33,6 @@ export default function Broadcast() {
   const { addLayer, removeLayer } = useLayers([])
 
   const { addMixerDevice, isMixerDeviceMuted } = useMixer([])
-
-  useEffect(() => {
-
-  }, [activeAudioDevice, activeVideoDevice])
 
   const getCamOffLayer = (canvas) => {
     return {
@@ -134,23 +129,13 @@ export default function Broadcast() {
   }
 
   const initLayers = async () => {
+    client.current = IVSBroadcastClient.create({
+      streamConfig: IVSBroadcastClient.STANDARD_LANDSCAPE,
+    });
+
+    client.current.attachPreview(canvasRef.current);
     // If the user has not provided permissions, get them.
-    if (!devicePermissions.video) {
-      try {
-        await handlePermissions()
-      } catch (err) {
-        // If we still don't have permissions after requesting them display the error message
-        if (!devicePermissions.video && !devicePermissions.audio) {
-          openNotification(constants.NOTIFICATION_MESSAGES.ACCESS_DEVICE_FAILED)
-        }
-      }
-    }
-
-    // Log errors in the browser console
-    client.current.config.logLevel = client.current.config.LOG_LEVEL.ERROR
-
-    // Attach the preview canvas to the client
-    client.current.attachPreview(canvasRef.current)
+    await handlePermissions()
 
     let vd
     let ad
@@ -238,21 +223,13 @@ export default function Broadcast() {
   }, [isLive])
 
   const handleStream = async () => {
-    const is = localStorage.getItem('ingestServer')
-    const sk = localStorage.getItem('streamKey')
-    if (is || sk) {
+    const IS = localStorage.getItem('ingestServer')
+    const SK = localStorage.getItem('streamKey')
+    if (IS && SK) {
       if (isLive) {
         stopStream(client.current, getPlaybackUrl)
       } else {
-        setStreamLoading(true)
-
-        client.current.config.ingestEndpoint = is;
-
-        // Resume the audio context to prevent audio issues when starting a stream after idling on the page
-        // in some browsers.
-        await client.current.getAudioContext().resume();
-        await client.current.startBroadcast(sk);
-        getPlaybackUrl()
+        startStream(client.current, IS, SK, getPlaybackUrl)
       }
     } else {
       openNotification(constants.NOTIFICATION_MESSAGES.NO_STREAM_KEY)
@@ -265,11 +242,6 @@ export default function Broadcast() {
         src='https://web-broadcast.live-video.net/1.5.1/amazon-ivs-web-broadcast.js'
         strategy='afterInteractive'
         onLoad={() => {
-          const streamConfig = getConfigFromResolution('1080')
-          const IVSClient = IVSBroadcastClient.create({
-            streamConfig: streamConfig,
-          })
-          client.current = IVSClient
           initLayers()
         }}
       />
