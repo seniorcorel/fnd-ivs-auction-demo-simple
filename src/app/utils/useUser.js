@@ -25,8 +25,6 @@ export const useUser = (initUsername) => {
       const { eventType } = message.attributes
       const { userId } = message.sender
 
-      if (userId !== 'admin') { return }
-
       if (eventType === START_AUCTION_EVENT) {
         const receivedProduct = JSON.parse(message.attributes.product)
         const receivedBid = JSON.parse(message.attributes.maxBid)

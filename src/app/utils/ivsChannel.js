@@ -1,7 +1,9 @@
-import fetchClient from "./fetchClient"
-
 export const getChatToken = async (userId) => {
-  const { chatTokenInfo } = await fetchClient(`/chatToken`, userId, 'POST')
+  const result = await fetch('/api/chatToken', {
+    method: 'POST',
+    body: JSON.stringify({ isAdmin: userId === 'admin' })
+  })
+  const chatTokenInfo = await result.json()
 
   if (!chatTokenInfo) return null
   chatTokenInfo.sessionExpirationTime = new Date(chatTokenInfo.sessionExpirationTime)

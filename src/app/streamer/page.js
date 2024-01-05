@@ -40,7 +40,6 @@ const Streamer = () => {
         closable={type !== constants.MODAL_TYPE.END_AUCTION}
       />
       <PlayerWrapper>
-        {bidResult && <BidResult />}
         {isLive && <LiveLabel />}
         <Broadcast />
       </PlayerWrapper>
