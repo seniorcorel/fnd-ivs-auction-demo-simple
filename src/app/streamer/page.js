@@ -2,7 +2,6 @@
 
 /* eslint-disable no-console */
 import React, { useEffect } from 'react'
-import Wrapper from './styled'
 import Modal from '../components/Modal'
 import useActions from '../hooks/useActions'
 import { useSelector } from 'react-redux'
@@ -13,6 +12,7 @@ import { PlayerWrapper } from '../components/VideoPlayer/styled'
 import BidResult from '../components/BidResult'
 import LiveLabel from '../components/LiveLabel'
 import Broadcast from '../components/Broadcast'
+import Wrapper from '../styles/page'
 
 const Streamer = () => {
   const {

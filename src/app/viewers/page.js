@@ -2,7 +2,6 @@
 
 /* eslint-disable no-console */
 import React from 'react'
-import Wrapper from './styled'
 import Modal from '../components/Modal'
 import useActions from '../hooks/useActions'
 import { useSelector } from 'react-redux'
@@ -10,6 +9,7 @@ import Notification from '../components/Notification'
 import constants from '../constants'
 import UserCard from '../components/UserCard'
 import VideoPlayer from '../components/VideoPlayer'
+import Wrapper from '../styles/page'
 
 const Viewers = () => {
   const {
