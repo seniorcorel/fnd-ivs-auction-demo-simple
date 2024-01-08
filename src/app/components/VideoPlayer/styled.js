@@ -1,6 +1,5 @@
 import { Typography } from '@mui/material'
 import styled from 'styled-components'
-import { landscapeOrientation } from '../../styles/device'
 
 export const EmptyVideoWrapper = styled.div`
   display: flex;
@@ -49,10 +48,6 @@ export const VideoWrapper = styled.div(({ theme }) => ({
     height: '100%',
   },
 
-  [landscapeOrientation]: {
-    width: '100%'
-  }
-
 }))
 
 export const PlayerWrapper = styled.div(({ theme }) => ({
@@ -73,14 +68,4 @@ export const PlayerWrapper = styled.div(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     overflow: 'unset',
   },
-
-  [landscapeOrientation]: {
-    aspectRatio: 'unset',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: '2.75rem',
-    paddingTop: '2.75rem',
-  },
-
 }))

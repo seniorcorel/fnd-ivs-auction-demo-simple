@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { landscapeOrientation } from '../../styles/device'
 
 export const ModalOverlay = styled.div`
     position: absolute;
@@ -39,19 +38,6 @@ export const ModalBox = styled.div(({ theme }) => ({
     width: '100%',
     paddingLeft: '1.5rem',
     paddingRight: '1.5rem',
-  },
-
-  [landscapeOrientation]: {
-    display: 'block',
-    width: '100%',
-    height: '100%',
-    borderRadius: 'unset',
-    overflowY: 'scroll',
-    top: '0',
-    left: '0',
-    bottom: '0',
-    transform: 'translate(0, 0)',
-    height: 'auto',
   },
 }))
 

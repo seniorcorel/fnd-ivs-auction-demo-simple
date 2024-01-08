@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import styled from 'styled-components'
-import { landscapeOrientation } from '../styles/device'
 import { tertiary900 } from '../styles/colours'
 
 const Wrapper = styled.div(({ theme }) => ({
@@ -18,15 +17,6 @@ const Wrapper = styled.div(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     flex: 'unset',
   },
-
-  [landscapeOrientation]: {
-    display: 'grid',
-    gridTemplateAreas: "'video bidArea' 'video footer'",
-    gridTemplateRows: 'auto 3.25rem',
-    gridTemplateColumns: '60vw auto',
-    height: '100vh',
-  }
-
 }))
 
 export default Wrapper

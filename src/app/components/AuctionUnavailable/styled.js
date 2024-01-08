@@ -1,6 +1,5 @@
 import { Button, Card } from '@mui/material'
 import styled from 'styled-components'
-import { landscapeOrientation } from '../../styles/device'
 import { tertiary800 } from '../../styles/colours'
 
 export const AuctionNotAvailable = styled.div`
@@ -23,10 +22,6 @@ export const AuctionNotAvailableSm = styled.div`
   flex-grow: 1;
   overflow-y: scroll;
   grid-area: bidArea;
-
-  ${landscapeOrientation} {
-    width: auto;
-  } 
 `
 
 export const AuctionButton = styled(Button)(({ theme }) => ({
@@ -43,10 +38,6 @@ export const AuctionButton = styled(Button)(({ theme }) => ({
     width: '15.25rem',
   },
   [theme.breakpoints.up('lg')]: {
-    width: '100%',
-  },
-
-  [landscapeOrientation]: {
     width: '100%',
   },
 
