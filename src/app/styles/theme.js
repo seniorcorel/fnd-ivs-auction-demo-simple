@@ -62,15 +62,6 @@ export default createTheme({
     }
   },
   components: {
-    MuiTypography: {
-      styleOverrides: {
-        root: {
-          '&.MuiTypography-h4': {
-            lineHeight: '2.25rem'
-          }
-        }
-      }
-    },
     MuiFormHelperText: {
       styleOverrides: {
         root: {
@@ -138,33 +129,6 @@ export default createTheme({
           boxShadow: '0rem 0.5rem 0.625rem rgba(0, 0, 0, 0.14), 0rem 0.1875rem 0.875rem rgba(0, 0, 0, 0.12), 0rem 0.3125rem 0.3125rem rgba(0, 0, 0, 0.2)',
           padding: '0rem',
           borderRadius: '0.25rem'
-        }
-      }
-    },
-    MuiMenu: {
-      styleOverrides: {
-        root: {
-          '& .MuiMenu-paper': {
-            borderRadius: '0.25rem'
-          }
-        }
-      }
-    },
-    MuiMenuItem: {
-      styleOverrides: {
-        root: {
-          padding: '0.375rem 0.9375rem',
-          color: opacityWhite,
-          backgroundColor: '#0A2837',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 30, 45, 0.9)'
-          },
-          '&.Mui-selected:hover, &.Mui-selected': {
-            backgroundColor: 'rgba(0, 30, 45, 0.9)'
-          },
-          '&.Mui-focusVisible': {
-            backgroundColor: 'rgba(0, 30, 45, 0.9)'
-          }
         }
       }
     },
