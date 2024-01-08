@@ -4,19 +4,14 @@ import useActions from '../../hooks/useActions'
 import { Video, VideoWrapper, PlayerWrapper } from './styled'
 import EmptyVideo from './EmptyVideo'
 import LiveLabel from '../LiveLabel'
-import { useMediaQuery } from '@mui/material'
-import { landscapeOrientation } from '../../styles/device'
-import BidResult from '../BidResult'
 import Script from 'next/script'
 
 const VideoPlayer = () => {
   const playerRef = useRef(null)
   const videoRef = useRef(null)
   const playerWrapperRef = useRef()
-  const { bidResult, isAdmin } = useSelector(state => state.auction)
   const { getStream } = useActions()
   const { isLive, playbackUrl } = useSelector(state => state.stream)
-  const matchesLandscape = useMediaQuery(landscapeOrientation)
   const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
@@ -63,20 +58,11 @@ const VideoPlayer = () => {
 
   return (
     <>
-      <Script
-        src="https://player.live-video.net/1.23.0/amazon-ivs-player.min.js"
-        onLoad={() => {
-          if (IVSPlayer.isPlayerSupported) {
-            playerRef.current = IVSPlayer.create()
-            playerRef.current.attachHTMLVideoElement(videoRef.current)
-          }
-        }}
-      />
+      <Script src="https://player.live-video.net/1.23.0/amazon-ivs-player.min.js" />
       <PlayerWrapper ref={playerWrapperRef}>
-        {matchesLandscape && bidResult && <BidResult />}
         {isLive && <LiveLabel />}
         <VideoWrapper>
-          {playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo isAdmin={isAdmin} />}
+          {playbackUrl ? <Video muted={false} playsInline ref={videoRef} /> : <EmptyVideo />}
         </VideoWrapper>
       </PlayerWrapper >
     </>

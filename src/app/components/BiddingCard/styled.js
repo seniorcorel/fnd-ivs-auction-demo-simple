@@ -114,3 +114,14 @@ text-overflow: ellipsis;
 overflow: hidden;
 white-space: nowrap;
 `
+
+export const BidWrapperSm = styled.div`
+  background-color: ${({ theme }) => theme.palette.custom.tertiary800};
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow-y: scroll;
+  color: white;
+  flex-grow: 1;
+  grid-area: bidArea;
+`

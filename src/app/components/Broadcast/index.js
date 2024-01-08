@@ -9,6 +9,7 @@ import useMixer from "@/app/utils/useMixer";
 import useStream from "@/app/utils/useStream";
 import useLayers from "@/app/utils/useLayers";
 import BroadcastButtons from "../BroadcastButtons";
+import EmptyVideo from "../VideoPlayer/EmptyVideo";
 
 export default function Broadcast() {
   const {
@@ -220,12 +221,17 @@ export default function Broadcast() {
         }}
       />
       <VideoWrapper>
-        <CanvasWrapper
-          key='STREAM_PREVIEW_VIDEO'
-          id='cam-video-preview'
-          permissions={devicePermissions.video.toString()}
-          ref={canvasRef}
-        ></CanvasWrapper>
+        {devicePermissions.video ? (
+          <CanvasWrapper
+            key='STREAM_PREVIEW_VIDEO'
+            id='cam-video-preview'
+            permissions={devicePermissions.video.toString()}
+            ref={canvasRef}
+          ></CanvasWrapper>
+        ) : (
+          <EmptyVideo />
+        )}
+
       </VideoWrapper>
       <BroadcastButtons handleCameraMute={handleCameraMute} handleMicMute={handleMicMute} handleStream={handleStream} />
     </>
