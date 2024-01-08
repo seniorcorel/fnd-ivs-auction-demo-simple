@@ -208,6 +208,8 @@ export default function Broadcast() {
     await getDevices()
   }
 
+  console.log('devicePermissions', devicePermissions.video, typeof devicePermissions.video);
+
   return (
     <>
       <Script
@@ -221,7 +223,7 @@ export default function Broadcast() {
         <CanvasWrapper
           key='STREAM_PREVIEW_VIDEO'
           id='cam-video-preview'
-          permissions={devicePermissions.video}
+          permissions={devicePermissions.video.toString()}
           ref={canvasRef}
         ></CanvasWrapper>
       </VideoWrapper>
