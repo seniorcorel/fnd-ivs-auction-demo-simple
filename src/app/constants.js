@@ -80,18 +80,11 @@ export default {
     ADMIN: {
       MAIN: 'Get Started!',
       SUB: 'Set up your auction details and start the bidding',
-      ICON_NAME: 'admin',
     },
     BIDDER: {
       MAIN: 'Get Ready!',
       SUB: 'When the auction starts you can bid here',
-      ICON_NAME: 'bidder',
     },
-    LOGGED_OUT: {
-      MAIN: 'Get Ready!',
-      SUB: 'When the auction starts you can watch the bidding here',
-      ICON_NAME: 'logged-out'
-    }
   },
   HOLD_SEATS: 'Hold on to your seats!',
   AUCTION_STARTING: 'The auction is about to start',
