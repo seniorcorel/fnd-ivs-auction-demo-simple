@@ -14,25 +14,13 @@ import { useState } from 'react'
 //   type,
 // }
 
-const useLayers = (initialLayer) => {
-  const [layers, setLayers] = useState([initialLayer]);
-
-  // Updates a layer
-  const updateLayer = async (layer, client) => {
-    try {
-      const { name, device, type, ...layerProps } = layer;
-      await client.updateVideoDeviceComposition(name, layerProps);
-      setLayer(layer);
-    } catch (err) {
-      throw Error(err);
-    }
-  };
+const useLayers = () => {
 
   // Add Layer
   const addLayer = async (layer, client) => {
     if (layer.type === 'VIDEO') {
       addVideoLayer(layer, client);
-    } else if (layer.type === 'image') {
+    } else if (layer.type === 'IMAGE') {
       addImageLayer(layer, client);
     }
   };
@@ -67,7 +55,6 @@ const useLayers = (initialLayer) => {
 
         await client.addVideoInputDevice(cameraStream, name, layerProps);
       }
-      setLayers((prevState) => [...prevState, layer]);
     } catch (err) {
       throw Error(err);
     }
@@ -91,7 +78,6 @@ const useLayers = (initialLayer) => {
         'load',
         async () => {
           await client.addImageSource(img, name, layerProps);
-          setLayers((prevState) => [...prevState, layer]);
         },
         { once: true }
       );
@@ -122,25 +108,12 @@ const useLayers = (initialLayer) => {
         default:
           break;
       }
-      setLayers((prevState) =>
-        prevState.filter((layer) => layer.name !== name)
-      );
     } catch (err) {
       console.error(err);
     }
   };
 
-  // Sets a layer given a layer reference. Returns void.
-  const setLayer = (layer) => {
-    const foundIndex = layers.findIndex((l) => l.name === layer.name);
-    setLayers((prevState) => {
-      prevState[foundIndex] = layer;
-      return prevState;
-    });
-  };
-
   return {
-    updateLayer,
     addLayer,
     removeLayer,
   };

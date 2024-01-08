@@ -9,7 +9,7 @@ import {
   END_AUCTION_EVENT,
   CONNECTED
 } from './helper'
-import useActions from '../hooks/useActions'
+import useActions from '../state/useActions'
 import constants from '../constants'
 const { STARTED } = constants.AUCTION_STATUS
 

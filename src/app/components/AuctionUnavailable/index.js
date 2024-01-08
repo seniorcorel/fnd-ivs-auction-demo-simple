@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import constants from '../../constants'
 import { AuctionUnAvailableWrapper, AuctionNotAvailable, AuctionNotAvailableSm, AuctionButton, CardWrapper } from './styled'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import { useMediaQuery } from '@mui/material'
 
 export const userTypes = {

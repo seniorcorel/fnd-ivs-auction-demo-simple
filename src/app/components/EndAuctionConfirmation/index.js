@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material'
 import constants from '../../constants'
 import { ButtonsWrapper } from './styled'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import { bidTypes } from '../../components/BidResult'
 
 const EndAuctionConfirmation = ({ handleClose }) => {

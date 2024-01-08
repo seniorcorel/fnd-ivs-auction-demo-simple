@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux'
 import constants from '../../constants'
 import { useForm } from 'react-hook-form'
 import ImagePreview from '../../components/ImagePreview'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import { useState, useEffect } from 'react'
 import { TextFieldBid } from './styled'
 

@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react"
 import Script from "next/script";
 import { CanvasWrapper, VideoWrapper } from "../VideoPlayer/styled";
-import useActions from "@/app/hooks/useActions";
+import useActions from "@/app/state/useActions";
 import { useSelector } from "react-redux";
 import constants from "@/app/constants";
 import useMixer from "@/app/utils/useMixer";
@@ -25,7 +25,6 @@ export default function Broadcast() {
   } = useActions()
 
   const { cameraOn, mikeOn, devicePermissions, activeVideoDevice, activeAudioDevice, isLive } = useSelector(state => state.stream)
-  const { streamKey, ingestServer } = useSelector(state => state.channel)
   const client = useRef(null)
   const canvasRef = useRef(null)
   const { LAYER_NAME } = constants
@@ -63,7 +62,6 @@ export default function Broadcast() {
       type: 'VIDEO',
     }
     const camOffLayer = getCamOffLayer(canvas)
-
     if (cameraOn) {
       await addLayer(layer, client.current)
     } else {
@@ -162,6 +160,7 @@ export default function Broadcast() {
 
     const camOffLayer = getCamOffLayer(canvas)
     if (cameraOn) {
+      console.log('change to camofflayer');
       await removeLayer(camLayer, client.current)
       await addLayer(camOffLayer, client.current)
       toggleCamera(false)
@@ -209,8 +208,6 @@ export default function Broadcast() {
     await getDevices()
   }
 
-  console.log('devicePermissions', devicePermissions.video, typeof devicePermissions.video);
-
   return (
     <>
       <Script
@@ -221,16 +218,13 @@ export default function Broadcast() {
         }}
       />
       <VideoWrapper>
-        {devicePermissions.video ? (
-          <CanvasWrapper
-            key='STREAM_PREVIEW_VIDEO'
-            id='cam-video-preview'
-            permissions={devicePermissions.video.toString()}
-            ref={canvasRef}
-          ></CanvasWrapper>
-        ) : (
-          <EmptyVideo />
-        )}
+        <CanvasWrapper
+          key='STREAM_PREVIEW_VIDEO'
+          id='cam-video-preview'
+          permissions={devicePermissions.video.toString()}
+          ref={canvasRef}
+        ></CanvasWrapper>
+
 
       </VideoWrapper>
       <BroadcastButtons handleCameraMute={handleCameraMute} handleMicMute={handleMicMute} handleStream={handleStream} />

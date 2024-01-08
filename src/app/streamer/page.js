@@ -3,7 +3,7 @@
 /* eslint-disable no-console */
 import React, { useEffect } from 'react'
 import Modal from '../components/Modal'
-import useActions from '../hooks/useActions'
+import useActions from '../state/useActions'
 import { useSelector } from 'react-redux'
 import Notification from '../components/Notification'
 import constants from '../constants'

@@ -1,4 +1,4 @@
-import useActions from '../hooks/useActions';
+import useActions from '../state/useActions';
 import constants from '../constants';
 
 const useStream = () => {

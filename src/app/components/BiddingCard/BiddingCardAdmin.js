@@ -1,5 +1,5 @@
 import constants from '../../constants'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import Content from './Content'
 import { useSelector } from 'react-redux'
 import { AdminAuctionButtons } from './styled'

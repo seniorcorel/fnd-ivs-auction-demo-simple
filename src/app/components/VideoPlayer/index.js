@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import { Video, VideoWrapper, PlayerWrapper } from './styled'
 import EmptyVideo from './EmptyVideo'
 import LiveLabel from '../LiveLabel'
@@ -23,11 +23,11 @@ const VideoPlayer = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (isPlaying) {
-      playerRef.current.setMuted(false)
-    }
-  }, [isPlaying])
+  // useEffect(() => {
+  //   if (isPlaying) {
+  //     playerRef.current.setMuted(false)
+  //   }
+  // }, [isPlaying])
 
   useEffect(() => {
     if (!playbackUrl) return
