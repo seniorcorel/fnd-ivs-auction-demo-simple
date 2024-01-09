@@ -2,17 +2,16 @@
 
 /* eslint-disable no-console */
 import React, { useEffect } from 'react'
-import Wrapper from './styled'
 import Modal from '../components/Modal'
-import useActions from '../hooks/useActions'
+import useActions from '../state/useActions'
 import { useSelector } from 'react-redux'
 import Notification from '../components/Notification'
 import constants from '../constants'
 import AdminCard from '../components/AdminCard'
 import { PlayerWrapper } from '../components/VideoPlayer/styled'
-import BidResult from '../components/BidResult'
 import LiveLabel from '../components/LiveLabel'
 import Broadcast from '../components/Broadcast'
+import Wrapper from '../styles/page'
 
 const Streamer = () => {
   const {
@@ -22,7 +21,7 @@ const Streamer = () => {
   } = useActions()
   const { type, isOpen } = useSelector(state => state.modal)
   const { isOpen: notificationOpen, type: notificationType, message } = useSelector(state => state.notification)
-  const { status, bidResult } = useSelector(state => state.auction)
+  const { status } = useSelector(state => state.auction)
   const { isLive } = useSelector(state => state.stream)
 
   useEffect(() => {

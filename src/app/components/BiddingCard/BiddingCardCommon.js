@@ -5,7 +5,7 @@ import { Product, ProductImage, ProductName, HighestBidderText } from './styled'
 import { useSelector } from 'react-redux'
 import CountDownTimer from './CountDownTimer'
 import { useState } from 'react'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import TimerBar from './TimerBar'
 import { AddRounded } from '@mui/icons-material'
 const {

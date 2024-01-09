@@ -17,7 +17,6 @@ const UserCard = ({ status }) => {
       <AuctionUnAvailable userType={userTypes.BIDDER} />
     )
   }
-
   return (
     <>
       {bidResult === bidTypes.WINNER && (

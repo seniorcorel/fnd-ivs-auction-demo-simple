@@ -7,8 +7,8 @@ import {
   BID_STATS,
   END_AUCTION_EVENT,
   CONNECTED
-} from './helper'
-import useActions from '../hooks/useActions'
+} from './useChatTokenSetup'
+import useActions from '../state/useActions'
 import constants from '../constants'
 import { bidTypes } from '../components/BidResult'
 

@@ -24,7 +24,6 @@ const initialState = {
   },
   playbackUrl: null,
   streamLoading: false,
-  isLiveBroadcast: false,
   activeVideoDevice: null,
   activeAudioDevice: null,
 }

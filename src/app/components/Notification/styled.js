@@ -1,6 +1,5 @@
 import { Snackbar } from '@mui/material'
 import styled from 'styled-components'
-import { landscapeOrientation } from '../../styles/device'
 
 export const SnackbarWrapper = styled(Snackbar)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
@@ -10,9 +9,5 @@ export const SnackbarWrapper = styled(Snackbar)(({ theme }) => ({
     transform: 'translateX(-50%) !important',
     whiteSpace: 'nowrap !important'
   },
-
-  [landscapeOrientation]: {
-    top: '1.5rem !important',
-  }
 
 }))

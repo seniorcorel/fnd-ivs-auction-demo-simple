@@ -2,14 +2,14 @@
 
 /* eslint-disable no-console */
 import React from 'react'
-import Wrapper from './styled'
 import Modal from '../components/Modal'
-import useActions from '../hooks/useActions'
+import useActions from '../state/useActions'
 import { useSelector } from 'react-redux'
 import Notification from '../components/Notification'
 import constants from '../constants'
 import UserCard from '../components/UserCard'
 import VideoPlayer from '../components/VideoPlayer'
+import Wrapper from '../styles/page'
 
 const Viewers = () => {
   const {
@@ -18,8 +18,7 @@ const Viewers = () => {
   } = useActions()
   const { type, isOpen } = useSelector(state => state.modal)
   const { isOpen: notificationOpen, type: notificationType, message } = useSelector(state => state.notification)
-  const { status, bidResult } = useSelector(state => state.auction)
-  const { isLive } = useSelector(state => state.stream)
+  const { status } = useSelector(state => state.auction)
 
   return (
     <Wrapper>

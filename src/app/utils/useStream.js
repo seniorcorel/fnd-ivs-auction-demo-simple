@@ -1,22 +1,21 @@
-import useActions from '../hooks/useActions';
+import useActions from '../state/useActions';
 import constants from '../constants';
 
 const useStream = () => {
   const { setStreamLoading, openNotification } = useActions()
   const startStream = async (
+    client,
     ingestServer,
     streamKey,
-    client,
+    getPlaybackUrl
   ) => {
     try {
-      // Set the ingest server to re-validate it before attempting to start the stream.
+      setStreamLoading(true)
       client.config.ingestEndpoint = ingestServer;
-
       // Resume the audio context to prevent audio issues when starting a stream after idling on the page
-      // in some browsers.
       await client.getAudioContext().resume();
       await client.startBroadcast(streamKey);
-      //* setStreamLoading(false) will be set at GET_STREAM_SUCCESS action
+      getPlaybackUrl()
     } catch (err) {
       switch (err.code) {
         case 10000:

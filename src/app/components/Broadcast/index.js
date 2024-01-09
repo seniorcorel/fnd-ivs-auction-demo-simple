@@ -2,14 +2,14 @@
 import { useEffect, useRef, useState } from "react"
 import Script from "next/script";
 import { CanvasWrapper, VideoWrapper } from "../VideoPlayer/styled";
-import useActions from "@/app/hooks/useActions";
+import useActions from "@/app/state/useActions";
 import { useSelector } from "react-redux";
 import constants from "@/app/constants";
 import useMixer from "@/app/utils/useMixer";
 import useStream from "@/app/utils/useStream";
 import useLayers from "@/app/utils/useLayers";
 import BroadcastButtons from "../BroadcastButtons";
-import { getConfigFromResolution } from "@/app/utils/broadcast";
+import EmptyVideo from "../VideoPlayer/EmptyVideo";
 
 export default function Broadcast() {
   const {
@@ -22,11 +22,9 @@ export default function Broadcast() {
     setActiveAudioDevice,
     setActiveVideoDevice,
     getStream,
-    setStreamLoading
   } = useActions()
 
   const { cameraOn, mikeOn, devicePermissions, activeVideoDevice, activeAudioDevice, isLive } = useSelector(state => state.stream)
-  const { streamKey, ingestServer } = useSelector(state => state.channel)
   const client = useRef(null)
   const canvasRef = useRef(null)
   const { LAYER_NAME } = constants
@@ -34,10 +32,6 @@ export default function Broadcast() {
   const { addLayer, removeLayer } = useLayers([])
 
   const { addMixerDevice, isMixerDeviceMuted } = useMixer([])
-
-  useEffect(() => {
-
-  }, [activeAudioDevice, activeVideoDevice])
 
   const getCamOffLayer = (canvas) => {
     return {
@@ -49,36 +43,6 @@ export default function Broadcast() {
       width: canvas.width / 8,
       height: canvas.width / 8,
       type: 'IMAGE',
-    }
-  }
-
-  const getVideoDevices = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices()
-      const videoDevices = devices.filter(
-        (device) => device.kind === 'videoinput'
-      )
-      if (!videoDevices.length) {
-        openNotification(constants.NOTIFICATION_MESSAGES.NO_VIDEO)
-      }
-      return videoDevices
-    } catch (err) {
-      openNotification(err.message)
-    }
-  }
-
-  const getAudioDevices = async () => {
-    try {
-      const devices = await navigator.mediaDevices.enumerateDevices()
-      const audioDevices = devices.filter(
-        (device) => device.kind === 'audioinput'
-      )
-      if (!audioDevices.length) {
-        openNotification(constants.NOTIFICATION_MESSAGES.NO_AUDIO)
-      }
-      return audioDevices
-    } catch (err) {
-      openNotification(err.message)
     }
   }
 
@@ -98,7 +62,6 @@ export default function Broadcast() {
       type: 'VIDEO',
     }
     const camOffLayer = getCamOffLayer(canvas)
-
     if (cameraOn) {
       await addLayer(layer, client.current)
     } else {
@@ -133,52 +96,34 @@ export default function Broadcast() {
     }
   }
 
-  const initLayers = async () => {
-    // If the user has not provided permissions, get them.
-    if (!devicePermissions.video) {
-      try {
-        await handlePermissions()
-      } catch (err) {
-        // If we still don't have permissions after requesting them display the error message
-        if (!devicePermissions.video && !devicePermissions.audio) {
-          openNotification(constants.NOTIFICATION_MESSAGES.ACCESS_DEVICE_FAILED)
-        }
-      }
-    }
-
-    // Log errors in the browser console
-    client.current.config.logLevel = client.current.config.LOG_LEVEL.ERROR
-
-    // Attach the preview canvas to the client
-    client.current.attachPreview(canvasRef.current)
-
+  const getDevices = async () => {
     let vd
     let ad
 
     try {
       // Get video devices
-      vd = await getVideoDevices()
+      const videoDevices = await navigator.mediaDevices.enumerateDevices()
+      vd = videoDevices.filter(
+        (device) => device.kind === 'videoinput'
+      )
       addVideoDevices(vd)
 
-      // Get audio devices
-      ad = await getAudioDevices()
-      addAudioDevices(ad)
-    } catch (err) {
-      openNotification(constants.NOTIFICATION_MESSAGES.DEVICE_NOT_FOUND)
-    }
-
-    try {
       // Render the video device on the broadcast canvas
       setActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
       renderActiveVideoDevice(activeVideoDevice ? activeVideoDevice : vd[0])
 
+      // Get audio devices
+      const audioDevices = await navigator.mediaDevices.enumerateDevices()
+      ad = audioDevices.filter(
+        (device) => device.kind === 'audioinput'
+      )
+      addAudioDevices(ad)
+
       // Render the audio device
       setActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
-
-      //Prashant ==> We need this line for initialization. but the problem is it is being rendered whenever streaming stops
       renderActiveAudioDevice(activeAudioDevice ? activeAudioDevice : ad[0])
     } catch (err) {
-      openNotification(constants.NOTIFICATION_MESSAGES.CANVAS_FAIL)
+      openNotification(err)
     }
   }
 
@@ -215,6 +160,7 @@ export default function Broadcast() {
 
     const camOffLayer = getCamOffLayer(canvas)
     if (cameraOn) {
+      console.log('change to camofflayer');
       await removeLayer(camLayer, client.current)
       await addLayer(camOffLayer, client.current)
       toggleCamera(false)
@@ -238,25 +184,28 @@ export default function Broadcast() {
   }, [isLive])
 
   const handleStream = async () => {
-    const is = localStorage.getItem('ingestServer')
-    const sk = localStorage.getItem('streamKey')
-    if (is || sk) {
+    const IS = localStorage.getItem('ingestServer')
+    const SK = localStorage.getItem('streamKey')
+    if (IS && SK) {
       if (isLive) {
         stopStream(client.current, getPlaybackUrl)
       } else {
-        setStreamLoading(true)
-
-        client.current.config.ingestEndpoint = is;
-
-        // Resume the audio context to prevent audio issues when starting a stream after idling on the page
-        // in some browsers.
-        await client.current.getAudioContext().resume();
-        await client.current.startBroadcast(sk);
-        getPlaybackUrl()
+        startStream(client.current, IS, SK, getPlaybackUrl)
       }
     } else {
       openNotification(constants.NOTIFICATION_MESSAGES.NO_STREAM_KEY)
     }
+  }
+
+  const initLayers = async () => {
+    client.current = IVSBroadcastClient.create({
+      streamConfig: IVSBroadcastClient.STANDARD_LANDSCAPE,
+    });
+
+    client.current.attachPreview(canvasRef.current);
+    // If the user has not provided permissions, get them.
+    await handlePermissions()
+    await getDevices()
   }
 
   return (
@@ -265,11 +214,6 @@ export default function Broadcast() {
         src='https://web-broadcast.live-video.net/1.5.1/amazon-ivs-web-broadcast.js'
         strategy='afterInteractive'
         onLoad={() => {
-          const streamConfig = getConfigFromResolution('1080')
-          const IVSClient = IVSBroadcastClient.create({
-            streamConfig: streamConfig,
-          })
-          client.current = IVSClient
           initLayers()
         }}
       />
@@ -277,9 +221,11 @@ export default function Broadcast() {
         <CanvasWrapper
           key='STREAM_PREVIEW_VIDEO'
           id='cam-video-preview'
-          permissions={devicePermissions.video}
+          permissions={devicePermissions.video.toString()}
           ref={canvasRef}
         ></CanvasWrapper>
+
+
       </VideoWrapper>
       <BroadcastButtons handleCameraMute={handleCameraMute} handleMicMute={handleMicMute} handleStream={handleStream} />
     </>

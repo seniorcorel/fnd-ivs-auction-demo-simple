@@ -2,7 +2,7 @@ import { Typography } from '@mui/material'
 import Countdown, { zeroPad } from 'react-countdown'
 import { useSelector } from 'react-redux'
 import constants from '../../constants'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import { bidTypes } from '../BidResult'
 
 const CountDownTimer = ({ auctionEndTimeMilliSeconds, setTimeLeft }) => {

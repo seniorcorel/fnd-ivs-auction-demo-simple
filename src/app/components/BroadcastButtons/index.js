@@ -1,6 +1,6 @@
 import { ButtonsWrapper, BroadcastButton, BroadCastButtonLast } from './styled'
 import { MicOffRounded, MicRounded, Settings, Videocam, VideocamOff } from '@mui/icons-material'
-import useActions from '../../hooks/useActions'
+import useActions from '../../state/useActions'
 import constants from '../../constants'
 import { useSelector } from 'react-redux'
 import { CircularProgress } from '@mui/material'

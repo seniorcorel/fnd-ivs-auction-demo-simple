@@ -1,4 +1,3 @@
-import fetchClient from '../../utils/fetchClient'
 import {
   ADD_AUDIO_DEVICES,
   ADD_VIDEO_DEVICES,

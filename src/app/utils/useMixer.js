@@ -1,4 +1,3 @@
-import { useState } from 'react';
 
 // Keeps track of initialized audio devices.
 
@@ -9,20 +8,7 @@ import { useState } from 'react';
 //   muted
 // }
 
-const useMixer = (initialDevice) => {
-  const [mixerDevices, setMixerDevices] = useState([initialDevice]);
-
-  // Add track
-  // Adds an audio track directly to the mixer
-  const addAudioTrack = async (audioLayer, client) => {
-    if (!client) return;
-    try {
-      await client.addAudioInputDevice(audioLayer.track, audioLayer.name);
-      setMixerDevices((prevState) => [...prevState, audioLayer]);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+const useMixer = () => {
 
   // Add Device
   // Adds an audio device to the mixer
@@ -48,7 +34,6 @@ const useMixer = (initialDevice) => {
         muteMixerDevice(microphoneTrack);
       }
 
-      setMixerDevices((prevState) => [...prevState, mixerDevice]);
     } catch (err) {
       console.error(err);
     }
@@ -64,9 +49,6 @@ const useMixer = (initialDevice) => {
       if (!name) return;
       await client.removeAudioInputDevice(name);
 
-      setMixerDevices((prevState) =>
-        prevState.filter((item) => item.name !== name)
-      );
     } catch (err) {
       console.error(err);
     }
@@ -90,7 +72,6 @@ const useMixer = (initialDevice) => {
       return unmuteMixerDevice(microphoneTrack);
     }
 
-
   };
 
   const muteMixerDevice = (microphoneTrack) => {
@@ -103,29 +84,10 @@ const useMixer = (initialDevice) => {
     return false;
   };
 
-  // Removes all devices from the mixer and resets to default state
-  const resetMixer = async (client) => {
-    const devices = mixerDevices;
-    for (let i = 0; i < mixerDevices.length; i++) {
-      const device = devices[i];
-      try {
-        await removeMixerDevice(device, client);
-        // setMixerDevices((prevState) =>
-        //   prevState.filter((item) => item.name !== name)
-        // );
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
 
   return {
-    mixerDevices,
     addMixerDevice,
-    addAudioTrack,
-    removeMixerDevice,
     isMixerDeviceMuted,
-    resetMixer,
   };
 };
 
