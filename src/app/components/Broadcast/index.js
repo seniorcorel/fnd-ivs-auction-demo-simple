@@ -184,8 +184,8 @@ export default function Broadcast() {
   }, [isLive])
 
   const handleStream = async () => {
-    const IS = localStorage.getItem('ingestServer')
-    const SK = localStorage.getItem('streamKey')
+    const IS = process.env.NEXT_PUBLIC_INGEST_SERVER
+    const SK = process.env.NEXT_PUBLIC_STREAM_KEY
     if (IS && SK) {
       if (isLive) {
         stopStream(client.current, getPlaybackUrl)
