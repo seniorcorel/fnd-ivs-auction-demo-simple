@@ -30,12 +30,6 @@ const reducer = (state = initialState, action) => {
                 ...action.payload.auction,
             }
         case BID:
-            const product = action.payload.product ? { ...state.product, ...JSON.parse(action.payload.product) } : state.product
-            const status = action.payload.product ? STARTED : state.status
-
-            if (!state.isAdmin) {
-                product.auctionStartTimeMilliSeconds = state.product.auctionStartTimeMilliSeconds
-            }
             return {
                 ...state,
                 maxBid: {
@@ -43,8 +37,6 @@ const reducer = (state = initialState, action) => {
                     bidSender: action.payload.bidSender,
                 },
                 bidResult: action.payload.bidResult,
-                product,
-                status,
             }
         case STARTED:
             if (state.status === STARTED) {

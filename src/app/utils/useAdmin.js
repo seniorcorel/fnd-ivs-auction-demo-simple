@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux'
 import {
   useChatTokenSetup,
   SEND_BID,
-  BID_STATS,
   START_AUCTION_EVENT,
   END_AUCTION_EVENT,
   CONNECTED
@@ -19,15 +18,6 @@ const useAdmin = () => {
   const { bidAuction } = useActions()
   const { product, maxBid, status } = useSelector(state => state.auction)
 
-  const sendAuctionStats = (bidValue, bidSender, inputProduct) => {
-    const request = new SendMessageRequest('skip', {
-      eventType: BID_STATS,
-      bidValue,
-      bidSender,
-      product: JSON.stringify(inputProduct)
-    })
-    room.sendMessage(request)
-  }
 
   useEffect(() => {
     if (!room || !product || product.productName === null) {
@@ -41,13 +31,10 @@ const useAdmin = () => {
         if (status !== STARTED || remainingTimeMilliSecondsInAuction < 0) {
           return
         }
-        sendAuctionStats(message.attributes.bid, message.sender.userId, product)
         bidAuction({
-          bidValue: message.attributes.bid,
+          bidValue: message.attributes.bidValue,
           bidSender: message.sender.userId,
           bidResult: null,
-          product: JSON.stringify(product),
-          username: message.attributes.bidSender
         })
       }
     })
@@ -72,7 +59,7 @@ const useAdmin = () => {
   }, [room, product, maxBid, status])
 
   const sendStartAuction = (room, product) => {
-    if (!room || room.state !== CONNECTED || !product || product.productName === null) {
+    if (!room || !product || product.productName === null) {
       return
     }
     console.log('message from sendstartAuction');
@@ -88,7 +75,7 @@ const useAdmin = () => {
   }, [room, product])
 
   const endAuction = useCallback((type, maxBidSender) => {
-    if (!room || room.state !== CONNECTED || !product || product.productName === null) {
+    if (!room || !product || product.productName === null) {
       return
     }
     const request = new SendMessageRequest('skip', {

@@ -30,9 +30,9 @@ export const changeAuctionStatus = ({ status, bidResult = null, product = null, 
   }
 }
 
-export const bidAuction = ({ bidValue, bidSender, bidResult, product, username }) => {
+export const bidAuction = ({ bidValue, bidSender, bidResult, product }) => {
   return dispatch => {
-    dispatch({ type: BID, payload: { bidValue, bidSender, bidResult, product, username } })
+    dispatch({ type: BID, payload: { bidValue, bidSender, bidResult, product } })
   }
 }
 

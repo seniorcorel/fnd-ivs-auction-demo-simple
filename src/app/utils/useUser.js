@@ -4,9 +4,7 @@ import {
   useChatTokenSetup,
   SEND_BID,
   START_AUCTION_EVENT,
-  BID_STATS,
   END_AUCTION_EVENT,
-  CONNECTED
 } from './useChatTokenSetup'
 import useActions from '../state/useActions'
 import constants from '../constants'
@@ -37,14 +35,11 @@ export const useUser = () => {
           },
           bidResult: null,
         })
-      } else if (eventType === BID_STATS) {
-        const bidSender = message.attributes.bidSender
+      } else if (eventType === SEND_BID) {
         bidAuction({
           bidValue: message.attributes.bidValue,
-          bidSender: bidSender,
-          bidResult: username === bidSender ? bidTypes.HIGHEST : null,
-          product: message.attributes.product,
-          username: userId
+          bidSender: userId,
+          bidResult: username === userId ? bidTypes.HIGHEST : null,
         })
       } else if (eventType === END_AUCTION_EVENT) {
         const receivedProduct = JSON.parse(message.attributes.product)
@@ -61,14 +56,11 @@ export const useUser = () => {
   }, [room, username])
 
   const sendBid = useCallback(async (bid) => {
-    if (!room || room.state !== CONNECTED) {
-      return
-    }
-
     const request = new SendMessageRequest('skip', {
       eventType: SEND_BID,
-      bid,
+      bidValue: bid,
     })
+
     try {
       await room.sendMessage(request);
       openNotification(constants.NOTIFICATION_MESSAGES.BID_SUCCESS, constants.NOTIFICATION_TYPES.SUCCESS)

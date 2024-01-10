@@ -38,5 +38,3 @@ export const useChatTokenSetup = (username) => {
 export const START_AUCTION_EVENT = 'start_auction'
 export const END_AUCTION_EVENT = 'end_auction'
 export const SEND_BID = 'send_bid'
-export const BID_STATS = 'bid_stats'
-export const CONNECTED = 'connected'
