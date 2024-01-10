@@ -14,7 +14,6 @@ const initialState = {
         imageLink: null,
         auctionStartTimeMilliSeconds: 0,
     },
-
     maxBid: {
         bidValue: '0',
         bidSender: null

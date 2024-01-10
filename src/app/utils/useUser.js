@@ -26,17 +26,16 @@ export const useUser = () => {
       const { eventType } = message.attributes
       const { userId } = message.sender
 
-      console.log('is thiis userID or username?', userId);
-
       if (eventType === START_AUCTION_EVENT) {
         const receivedProduct = JSON.parse(message.attributes.product)
-        const receivedBid = JSON.parse(message.attributes.maxBid)
-        const bidResult = username === receivedBid.bidSender ? bidTypes.HIGHEST : null
         changeAuctionStatus({
           status: constants.AUCTION_STATUS.STARTED,
           product: receivedProduct,
-          maxBid: receivedBid,
-          bidResult,
+          maxBid: {
+            bidValue: receivedProduct.initialBid,
+            bidSender: null
+          },
+          bidResult: null,
         })
       } else if (eventType === BID_STATS) {
         const bidSender = message.attributes.bidSender

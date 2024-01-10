@@ -71,21 +71,21 @@ const useAdmin = () => {
     }
   }, [room, product, maxBid, status])
 
-  const sendStartAuction = (room, product, maxBid) => {
+  const sendStartAuction = (room, product) => {
     if (!room || room.state !== CONNECTED || !product || product.productName === null) {
       return
     }
+    console.log('message from sendstartAuction');
     const request = new SendMessageRequest('skip', {
       eventType: START_AUCTION_EVENT,
       product: JSON.stringify(product),
-      maxBid: JSON.stringify(maxBid)
     })
     room.sendMessage(request)
   }
 
   const startAuction = useCallback(() => {
-    sendStartAuction(room, product, maxBid)
-  }, [room, product, maxBid])
+    sendStartAuction(room, product)
+  }, [room, product])
 
   const endAuction = useCallback((type, maxBidSender) => {
     if (!room || room.state !== CONNECTED || !product || product.productName === null) {
