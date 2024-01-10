@@ -14,7 +14,8 @@ import constants from '../constants'
 const { STARTED } = constants.AUCTION_STATUS
 
 const useAdmin = () => {
-  const { room } = useChatTokenSetup('admin')
+  const { username } = useSelector(state => state.auction)
+  const { room } = useChatTokenSetup(username)
   const { bidAuction } = useActions()
   const { product, maxBid, status } = useSelector(state => state.auction)
 

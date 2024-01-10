@@ -15,7 +15,7 @@ export const CLOSE_NOTIFICATION = 'CLOSE_NOTIFICATION'
 export const AUCTION_STATUS = constants.AUCTION_STATUS
 export const BID = 'BID'
 export const BID_RESULT = 'BID_RESULT'
-export const SET_ADMIN = 'SET_ADMIN'
+export const SET_USER = 'SET_USER'
 
 export const TOGGLE_CAMERA = 'TOGGLE_CAMERA'
 export const TOGGLE_MIKE = 'TOGGLE_MIKE'

@@ -1,21 +1,33 @@
 "use client"
 
 /* eslint-disable no-console */
-import React from 'react'
-import Modal from '../components/Modal'
-import useActions from '../state/useActions'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
+import { useSearchParams } from 'next/navigation'
+import { redirect } from 'next/navigation'
+import useActions from '../state/useActions'
+
+import Modal from '../components/Modal'
 import Notification from '../components/Notification'
-import constants from '../constants'
 import UserCard from '../components/UserCard'
 import VideoPlayer from '../components/VideoPlayer'
-import Wrapper from '../styles/page'
+
+import constants from '../constants'
+import { Wrapper } from '../styles/page'
 
 const Viewers = () => {
-  const {
-    toggleModal,
-    closeNotification,
-  } = useActions()
+  const searchParams = useSearchParams()
+  const username = searchParams.get('username')
+  if (!username) {
+    redirect('/')
+  }
+
+  const { toggleModal, closeNotification, setUser } = useActions()
+
+  useEffect(() => {
+    setUser({ username, isAdmin: false })
+  }, [])
+
   const { type, isOpen } = useSelector(state => state.modal)
   const { isOpen: notificationOpen, type: notificationType, message } = useSelector(state => state.notification)
   const { status } = useSelector(state => state.auction)

@@ -1,5 +1,5 @@
 import constants from '../../constants'
-import { BID, BID_RESULT, SET_ADMIN } from '../types'
+import { BID, BID_RESULT, SET_USER } from '../types'
 import { HYDRATE } from 'next-redux-wrapper'
 const { NOT_STARTED, STARTED, FINISHED } = constants.AUCTION_STATUS
 
@@ -34,7 +34,7 @@ const reducer = (state = initialState, action) => {
             const product = action.payload.product ? { ...state.product, ...JSON.parse(action.payload.product) } : state.product
             const status = action.payload.product ? STARTED : state.status
 
-            if (action.payload.username !== 'admin') {
+            if (!state.isAdmin) {
                 product.auctionStartTimeMilliSeconds = state.product.auctionStartTimeMilliSeconds
             }
             return {
@@ -89,10 +89,12 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 bidResult: action.payload
             }
-        case SET_ADMIN:
+        case SET_USER:
+            const { isAdmin, username } = action.payload
             return {
                 ...state,
-                isAdmin: true
+                isAdmin,
+                username,
             }
         case NOT_STARTED:
         default:

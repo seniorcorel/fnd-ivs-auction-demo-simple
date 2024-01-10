@@ -11,9 +11,11 @@ import {
 import useActions from '../state/useActions'
 import constants from '../constants'
 import { bidTypes } from '../components/BidResult'
+import { useSelector } from 'react-redux'
 
-export const useUser = (initUsername) => {
-  const { room } = useChatTokenSetup(initUsername)
+export const useUser = () => {
+  const { username } = useSelector(state => state.auction)
+  const { room } = useChatTokenSetup(username)
   const { changeAuctionStatus, bidAuction, openNotification } = useActions()
 
   useEffect(() => {
@@ -21,14 +23,15 @@ export const useUser = (initUsername) => {
       return
     }
     const unsubscribeOnMessage = room.addListener('message', (message) => {
-
       const { eventType } = message.attributes
       const { userId } = message.sender
+
+      console.log('is thiis userID or username?', userId);
 
       if (eventType === START_AUCTION_EVENT) {
         const receivedProduct = JSON.parse(message.attributes.product)
         const receivedBid = JSON.parse(message.attributes.maxBid)
-        const bidResult = initUsername === receivedBid.bidSender ? bidTypes.HIGHEST : null
+        const bidResult = username === receivedBid.bidSender ? bidTypes.HIGHEST : null
         changeAuctionStatus({
           status: constants.AUCTION_STATUS.STARTED,
           product: receivedProduct,
@@ -40,7 +43,7 @@ export const useUser = (initUsername) => {
         bidAuction({
           bidValue: message.attributes.bidValue,
           bidSender: bidSender,
-          bidResult: initUsername === bidSender ? bidTypes.HIGHEST : null,
+          bidResult: username === bidSender ? bidTypes.HIGHEST : null,
           product: message.attributes.product,
           username: userId
         })
@@ -49,14 +52,14 @@ export const useUser = (initUsername) => {
         const receivedMaxBid = JSON.parse(message.attributes.maxBid)
         const messageBidResult = message.attributes.bidResult
         const maxBidSender = message.attributes.maxBidSender
-        const userBidResult = ((messageBidResult === bidTypes.SOLD) && (maxBidSender === initUsername)) ? bidTypes.WINNER : messageBidResult
+        const userBidResult = ((messageBidResult === bidTypes.SOLD) && (maxBidSender === username)) ? bidTypes.WINNER : messageBidResult
         changeAuctionStatus({ status: constants.AUCTION_STATUS.FINISHED, bidResult: userBidResult, product: receivedProduct, maxBid: receivedMaxBid })
       }
     })
     return () => {
       unsubscribeOnMessage()
     }
-  }, [room, initUsername])
+  }, [room, username])
 
   const sendBid = useCallback(async (bid) => {
     if (!room || room.state !== CONNECTED) {
