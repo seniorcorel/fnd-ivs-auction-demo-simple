@@ -66,14 +66,10 @@ const reducer = (state = initialState, action) => {
                 bidResult: bidResultForStarted,
             }
         case FINISHED:
-            const productForFinishedAction = action.payload.product ? action.payload.product : state.product
-            const maxBidForFinishedAction = action.payload.maxBid ? action.payload.maxBid : state.maxBid
             return {
                 ...state,
                 status: FINISHED,
                 bidResult: action.payload.bidResult,
-                product: productForFinishedAction,
-                maxBid: maxBidForFinishedAction
             }
         case BID_RESULT:
             return {

@@ -42,12 +42,10 @@ export const useUser = () => {
           bidResult: username === userId ? bidTypes.HIGHEST : null,
         })
       } else if (eventType === END_AUCTION_EVENT) {
-        const receivedProduct = JSON.parse(message.attributes.product)
-        const receivedMaxBid = JSON.parse(message.attributes.maxBid)
         const messageBidResult = message.attributes.bidResult
-        const maxBidSender = message.attributes.maxBidSender
-        const userBidResult = ((messageBidResult === bidTypes.SOLD) && (maxBidSender === username)) ? bidTypes.WINNER : messageBidResult
-        changeAuctionStatus({ status: constants.AUCTION_STATUS.FINISHED, bidResult: userBidResult, product: receivedProduct, maxBid: receivedMaxBid })
+        const maxBidder = message.attributes.maxBidder
+        const userBidResult = ((messageBidResult === bidTypes.SOLD) && (maxBidder === username)) ? bidTypes.WINNER : messageBidResult
+        changeAuctionStatus({ status: constants.AUCTION_STATUS.FINISHED, bidResult: userBidResult })
       }
     })
     return () => {

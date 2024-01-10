@@ -5,11 +5,7 @@ export const changeAuctionStatus = ({ status, bidResult = null, product = null, 
     if (status === AUCTION_STATUS.FINISHED) {
       dispatch({
         type: AUCTION_STATUS.FINISHED,
-        payload: {
-          bidResult,
-          product,
-          maxBid
-        }
+        payload: { bidResult }
       })
     } else if (status === AUCTION_STATUS.STARTED) {
       if (product.duration) {

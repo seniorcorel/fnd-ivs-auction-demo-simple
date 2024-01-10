@@ -6,7 +6,6 @@ import {
   SEND_BID,
   START_AUCTION_EVENT,
   END_AUCTION_EVENT,
-  CONNECTED
 } from './useChatTokenSetup'
 import useActions from '../state/useActions'
 import constants from '../constants'
@@ -74,16 +73,14 @@ const useAdmin = () => {
     sendStartAuction(room, product)
   }, [room, product])
 
-  const endAuction = useCallback((type, maxBidSender) => {
+  const endAuction = useCallback((type, maxBidder) => {
     if (!room || !product || product.productName === null) {
       return
     }
     const request = new SendMessageRequest('skip', {
       eventType: END_AUCTION_EVENT,
-      maxBidSender: maxBidSender,
       bidResult: type, //either CANCELLED, NO_BID or SOLD
-      product: JSON.stringify(product),
-      maxBid: JSON.stringify(maxBid)
+      maxBidder: maxBidder
     })
     room.sendMessage(request)
   }, [room, product, maxBid])
