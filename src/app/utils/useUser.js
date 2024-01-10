@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { SendMessageRequest } from 'amazon-ivs-chat-messaging'
 import {
   useChatTokenSetup,
@@ -55,7 +55,7 @@ export const useUser = () => {
     }
   }, [room, username])
 
-  const sendBid = useCallback(async (bid) => {
+  const sendBid = async (bid) => {
     const request = new SendMessageRequest('skip', {
       eventType: SEND_BID,
       bidValue: bid,
@@ -67,7 +67,7 @@ export const useUser = () => {
     } catch (error) {
       openNotification(constants.NOTIFICATION_MESSAGES.BID_ERROR, constants.NOTIFICATION_TYPES.ERROR)
     }
-  }, [room])
+  }
 
   return {
     sendBid,
