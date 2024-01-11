@@ -73,7 +73,7 @@ const useAdmin = () => {
     sendStartAuction(room, product)
   }, [room, product])
 
-  const endAuction = useCallback((type, maxBidder) => {
+  const endAuction = async (type, maxBidder) => {
     if (!room || !product || product.productName === null) {
       return
     }
@@ -82,8 +82,12 @@ const useAdmin = () => {
       bidResult: type, //either CANCELLED, NO_BID or SOLD
       maxBidder: maxBidder
     })
-    room.sendMessage(request)
-  }, [room, product, maxBid])
+    try {
+      await room.sendMessage(request)
+    } catch (error) {
+      console.log('Cannot end auction: ', error)
+    }
+  }
 
   return { startAuction, endAuction }
 }
