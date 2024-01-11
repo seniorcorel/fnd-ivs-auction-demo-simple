@@ -28,7 +28,7 @@ const AuctionUnAvailable = ({ userType = userTypes.BIDDER }) => {
   return (
     matches ?
       <AuctionUnAvailableWrapper>
-        <CardWrapper height={'100%'}>
+        <CardWrapper>
           <AuctionNotAvailable>
             {renderContent}
           </AuctionNotAvailable>

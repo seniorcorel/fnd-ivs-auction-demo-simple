@@ -1,5 +1,5 @@
 import constants from '../../constants'
-import { BID, BID_RESULT, SET_ADMIN } from '../types'
+import { BID, BID_RESULT, SET_USER } from '../types'
 import { HYDRATE } from 'next-redux-wrapper'
 const { NOT_STARTED, STARTED, FINISHED } = constants.AUCTION_STATUS
 
@@ -14,7 +14,6 @@ const initialState = {
         imageLink: null,
         auctionStartTimeMilliSeconds: 0,
     },
-
     maxBid: {
         bidValue: '0',
         bidSender: null
@@ -31,12 +30,6 @@ const reducer = (state = initialState, action) => {
                 ...action.payload.auction,
             }
         case BID:
-            const product = action.payload.product ? { ...state.product, ...JSON.parse(action.payload.product) } : state.product
-            const status = action.payload.product ? STARTED : state.status
-
-            if (action.payload.username !== 'admin') {
-                product.auctionStartTimeMilliSeconds = state.product.auctionStartTimeMilliSeconds
-            }
             return {
                 ...state,
                 maxBid: {
@@ -44,8 +37,6 @@ const reducer = (state = initialState, action) => {
                     bidSender: action.payload.bidSender,
                 },
                 bidResult: action.payload.bidResult,
-                product,
-                status,
             }
         case STARTED:
             if (state.status === STARTED) {
@@ -75,24 +66,22 @@ const reducer = (state = initialState, action) => {
                 bidResult: bidResultForStarted,
             }
         case FINISHED:
-            const productForFinishedAction = action.payload.product ? action.payload.product : state.product
-            const maxBidForFinishedAction = action.payload.maxBid ? action.payload.maxBid : state.maxBid
             return {
                 ...state,
                 status: FINISHED,
                 bidResult: action.payload.bidResult,
-                product: productForFinishedAction,
-                maxBid: maxBidForFinishedAction
             }
         case BID_RESULT:
             return {
                 ...state,
                 bidResult: action.payload
             }
-        case SET_ADMIN:
+        case SET_USER:
+            const { isAdmin, username } = action.payload
             return {
                 ...state,
-                isAdmin: true
+                isAdmin,
+                username,
             }
         case NOT_STARTED:
         default:

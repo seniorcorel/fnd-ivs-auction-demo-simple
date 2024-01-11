@@ -2,7 +2,7 @@
 import styled from 'styled-components'
 import { tertiary900 } from '../styles/colours'
 
-const Wrapper = styled.div(({ theme }) => ({
+export const Wrapper = styled.div(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.75rem',
@@ -18,5 +18,3 @@ const Wrapper = styled.div(({ theme }) => ({
     flex: 'unset',
   },
 }))
-
-export default Wrapper

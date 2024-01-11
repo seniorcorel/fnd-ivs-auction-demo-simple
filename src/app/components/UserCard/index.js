@@ -10,7 +10,7 @@ import Confetti from '../Confetti'
 
 const UserCard = ({ status }) => {
   const { bidResult } = useSelector(state => state.auction)
-  const { sendBid } = useUser('user')
+  const { sendBid } = useUser()
 
   if (status === constants.AUCTION_STATUS.NOT_STARTED) {
     return (

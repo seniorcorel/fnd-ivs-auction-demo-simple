@@ -4,29 +4,19 @@ import { useSelector } from 'react-redux'
 import {
   useChatTokenSetup,
   SEND_BID,
-  BID_STATS,
   START_AUCTION_EVENT,
   END_AUCTION_EVENT,
-  CONNECTED
 } from './useChatTokenSetup'
 import useActions from '../state/useActions'
 import constants from '../constants'
 const { STARTED } = constants.AUCTION_STATUS
 
 const useAdmin = () => {
-  const { room } = useChatTokenSetup('admin')
+  const { username } = useSelector(state => state.auction)
+  const { room } = useChatTokenSetup(username)
   const { bidAuction } = useActions()
   const { product, maxBid, status } = useSelector(state => state.auction)
 
-  const sendAuctionStats = (bidValue, bidSender, inputProduct) => {
-    const request = new SendMessageRequest('skip', {
-      eventType: BID_STATS,
-      bidValue,
-      bidSender,
-      product: JSON.stringify(inputProduct)
-    })
-    room.sendMessage(request)
-  }
 
   useEffect(() => {
     if (!room || !product || product.productName === null) {
@@ -40,13 +30,10 @@ const useAdmin = () => {
         if (status !== STARTED || remainingTimeMilliSecondsInAuction < 0) {
           return
         }
-        sendAuctionStats(message.attributes.bid, message.sender.userId, product)
         bidAuction({
-          bidValue: message.attributes.bid,
+          bidValue: message.attributes.bidValue,
           bidSender: message.sender.userId,
           bidResult: null,
-          product: JSON.stringify(product),
-          username: message.attributes.bidSender
         })
       }
     })
@@ -70,35 +57,37 @@ const useAdmin = () => {
     }
   }, [room, product, maxBid, status])
 
-  const sendStartAuction = (room, product, maxBid) => {
-    if (!room || room.state !== CONNECTED || !product || product.productName === null) {
+  const sendStartAuction = (room, product) => {
+    if (!room || !product || product.productName === null) {
       return
     }
+    console.log('message from sendstartAuction');
     const request = new SendMessageRequest('skip', {
       eventType: START_AUCTION_EVENT,
       product: JSON.stringify(product),
-      maxBid: JSON.stringify(maxBid)
     })
     room.sendMessage(request)
   }
 
   const startAuction = useCallback(() => {
-    sendStartAuction(room, product, maxBid)
-  }, [room, product, maxBid])
+    sendStartAuction(room, product)
+  }, [room, product])
 
-  const endAuction = useCallback((type, maxBidSender) => {
-    if (!room || room.state !== CONNECTED || !product || product.productName === null) {
+  const endAuction = async (type, maxBidder) => {
+    if (!room || !product || product.productName === null) {
       return
     }
     const request = new SendMessageRequest('skip', {
       eventType: END_AUCTION_EVENT,
-      maxBidSender: maxBidSender,
       bidResult: type, //either CANCELLED, NO_BID or SOLD
-      product: JSON.stringify(product),
-      maxBid: JSON.stringify(maxBid)
+      maxBidder: maxBidder
     })
-    room.sendMessage(request)
-  }, [room, product, maxBid])
+    try {
+      await room.sendMessage(request)
+    } catch (error) {
+      console.log('Cannot end auction: ', error)
+    }
+  }
 
   return { startAuction, endAuction }
 }

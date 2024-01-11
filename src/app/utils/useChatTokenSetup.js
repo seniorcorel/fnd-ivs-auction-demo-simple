@@ -2,10 +2,10 @@
 import { useEffect, useState } from 'react';
 import { ChatRoom } from 'amazon-ivs-chat-messaging'
 
-const getChatToken = async (userId) => {
+const getChatToken = async (username) => {
   const result = await fetch('/api/chatToken', {
     method: 'POST',
-    body: JSON.stringify({ isAdmin: userId === 'admin' })
+    body: JSON.stringify({ username })
   })
   const chatTokenInfo = await result.json()
 
@@ -15,20 +15,20 @@ const getChatToken = async (userId) => {
   return chatTokenInfo
 }
 
-export const useChatTokenSetup = (userId) => {
+export const useChatTokenSetup = (username) => {
   const [room, setRoom] = useState(null)
 
   useEffect(() => {
-    if (!userId) return
+    if (!username) return
     const chatRoom = new ChatRoom({
       regionOrUrl: process.env.NEXT_PUBLIC_AWS_REGION,
-      tokenProvider: () => getChatToken(userId),
+      tokenProvider: () => getChatToken(username),
     })
     chatRoom.connect();
     chatRoom.logLevel = 'info'
     setRoom(chatRoom)
 
-  }, [userId])
+  }, [username])
 
   return {
     room,
@@ -38,5 +38,3 @@ export const useChatTokenSetup = (userId) => {
 export const START_AUCTION_EVENT = 'start_auction'
 export const END_AUCTION_EVENT = 'end_auction'
 export const SEND_BID = 'send_bid'
-export const BID_STATS = 'bid_stats'
-export const CONNECTED = 'connected'

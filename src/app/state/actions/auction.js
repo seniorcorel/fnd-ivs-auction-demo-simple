@@ -1,15 +1,11 @@
-import { AUCTION_STATUS, BID, BID_RESULT, SET_ADMIN } from '../types'
+import { AUCTION_STATUS, BID, BID_RESULT, SET_USER } from '../types'
 
 export const changeAuctionStatus = ({ status, bidResult = null, product = null, maxBid = null }) => {
   return dispatch => {
     if (status === AUCTION_STATUS.FINISHED) {
       dispatch({
         type: AUCTION_STATUS.FINISHED,
-        payload: {
-          bidResult,
-          product,
-          maxBid
-        }
+        payload: { bidResult }
       })
     } else if (status === AUCTION_STATUS.STARTED) {
       if (product.duration) {
@@ -30,9 +26,9 @@ export const changeAuctionStatus = ({ status, bidResult = null, product = null, 
   }
 }
 
-export const bidAuction = ({ bidValue, bidSender, bidResult, product, username }) => {
+export const bidAuction = ({ bidValue, bidSender, bidResult, product }) => {
   return dispatch => {
-    dispatch({ type: BID, payload: { bidValue, bidSender, bidResult, product, username } })
+    dispatch({ type: BID, payload: { bidValue, bidSender, bidResult, product } })
   }
 }
 
@@ -42,8 +38,8 @@ export const changeBidResult = (bidResult) => {
   }
 }
 
-export const setAdmin = () => {
+export const setUser = (userInfo) => {
   return dispatch => {
-    dispatch({ type: SET_ADMIN })
+    dispatch({ type: SET_USER, payload: userInfo })
   }
 }
