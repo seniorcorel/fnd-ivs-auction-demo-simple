@@ -12,11 +12,11 @@ For further reading about the project, visit our medium blog post at
 
 To launch the completed project, follow these steps:
 
-- [Step 1. Get Permissions Policy]
-- [Step 2. Make a new IVS channel]
-- [Step 3. Copy the IVS Channel Keys and store them in env file]
-- [Step 4. Make a IVS chat room]
-- [Step 6. Test the project]
+- [Step 1. Get Permissions Policy](#1-get-permissions-policy)
+- [Step 2. Make a new IVS channel](2-make-a-new-ivs-channel)
+- [Step 3. Copy the IVS Channel Keys and store them in env file](#3-copy-the-ivs-channel-keys-and-store-them-in-env-file)
+- [Step 4. Make a IVS chat room](#4-make-a-ivs-chat-room)
+- [Step 6. Test the project](#5-test-the-project)
 
 <br />
 
