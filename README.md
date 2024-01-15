@@ -22,18 +22,18 @@ To launch the completed project, follow these steps:
 
 ### Prerequisites
 
-You would need to log in to your [AWS Console Account](https://aws.amazon.com/console/) to be set up!
-Once you do have an account set up go to the top of the [IVS(Interactive Video Service)](console.aws.amazon.com/ivs/) page top page.
-Make sure you’re in the right region, because IVS feature is limited to the regions shown below.
+You would need to log in to your [AWS Console Account](https://aws.amazon.com/console/) to complete this tutorial!
+Go to the top of the [IVS(Interactive Video Service)](console.aws.amazon.com/ivs/) page.
+Make sure you’re in the right region, because IVS is limited to the regions shown below.
 
-We are going to pick `us-west-2` for this project because our network is closer.
+We are going to pick `us-west-2` for this project since we are located in that region.
 
 <img src="public/readme/regions.png" alt="Amazon IVS console: regions" /><br />
 
 
-## 1. Get Permissions Policy
+## 1. Attach permissions to your account
 
-Whhat is permissions?
+*What is permissions?*
 You need to allow your account/user to use the AWS Services for retrieving & editing data. If you already have access, you can skip this part!
 
 To add policies, you can either: 
@@ -49,10 +49,10 @@ If you were just applying access to yourself just for the sake of testing, this 
 
 - Go to AWS console and navigate to the [IAM services pages](console.aws.amazon.com/iam)
 - Click the `Users` tab on the left, and click YOUR username on the list
-- Under `Permissions policies`, click the `Add Permissions` button in the dropdown.
+- Under `Permissions policies`, click `Add Permissions` button in the dropdown.
 - Click the third tab `Attach policies directly`
-- Find `Administrator Access`` in the list and click the check, then click the orange `Next` button in the bottom
-- In the next page, click the orange button `Add Permissions`
+- Find `Administrator Access`` in the list and click the check, then click `Next` button in the bottom
+- On the next page, click `Add Permissions`
 
 <img src="public/readme/policyA-1.png" alt="AWS IAM: permissions" /><br />
 <img src="public/readme/policyA-2.png" alt="AWS IAM: permissions" /><br />
@@ -63,7 +63,7 @@ Instead of attaching AdmistratorAccess, you can create new Permission policies b
 
 - Go to AWS console and navigate to the IAM services pages
 - Click on the `Policies` tab on the left
-- Click the orange button `Create policy`
+- Click the button `Create policy`
 - Click `JSON` tab so that we can enter permissions via JSON format
 - In the Policy editor, copy and paste the following
 
@@ -99,8 +99,8 @@ Once you’ve got permissions, we can make a IVS Channel
 
 - Go to the AWS Console and access the Interactive Video Service page
 - Select “Channel” tab on the left hand sidebar
-- Click the orange button “Create channel” on the top right corner.
-- Enter a channel name, and click the orange “Create channel” button on the bottom
+- Click the button “Create channel” on the top right corner.
+- Enter a channel name, and click the “Create channel” button on the bottom
 - Once it's created, click your channel name in the list to go to details page
 - From the channel, details page, copy the following keys:
 
@@ -137,8 +137,8 @@ Now that we’ve made a channel, we can create a chat room: now.
 
 - Go to the AWS Console and access the Interactive Video Service page
 - Select `Rooms` tab under `Chat` on the left hand sidebar
-- Click the orange button `Create room` on the top right corner.
-- Enter a chat room name, and click the orange `Create room` button on the bottom
+- Click the button `Create room` on the top right corner.
+- Enter a chat room name, and click the `Create room` button on the bottom
 - Once it's created, click your chat room name in the list to go to details page
 - From the channel, details page, copy the room `ARN`
 - In your .env file of the project, add the copied ARN in the key  NEXT_PUBLIC_CHATROOM_ID=
