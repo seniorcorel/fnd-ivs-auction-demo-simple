@@ -33,13 +33,13 @@ We are going to pick `us-west-2` for this project since we are located in that r
 
 ## 1. Attach permissions to your account
 
-*What is permissions?*
+*What are permissions?*
 You need to allow your account/user to use the AWS Services for retrieving & editing data. If you already have access, you can skip this part!
 
 To add policies, you can either: 
 
-- A. attach an AdministratorAccess policy to yourself
-- B. attach an IVS and IVS Chat policy to yourself
+- A. Attach an AdministratorAccess policy to yourself
+- B. Attach an IVS and IVS Chat policy to yourself
 
 
 ### A. Attach an AdministratorAccess policy to yourself
