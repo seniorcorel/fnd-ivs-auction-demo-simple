@@ -51,7 +51,7 @@ If you were just applying access to yourself just for the sake of testing, this 
 - Click the `Users` tab on the left, and click YOUR username on the list
 - Under `Permissions policies`, click `Add Permissions` button in the dropdown.
 - Click the third tab `Attach policies directly`
-- Find `Administrator Access`` in the list and click the check, then click `Next` button in the bottom
+- Find `Administrator Access` in the list and click the check, then click `Next` button at the bottom
 - On the next page, click `Add Permissions`
 
 <img src="public/readme/policyA-1.png" alt="AWS IAM: permissions" /><br />
@@ -63,7 +63,7 @@ Instead of attaching AdmistratorAccess, you can create new Permission policies b
 
 - Go to AWS console and navigate to the IAM services pages
 - Click on the `Policies` tab on the left
-- Click the button `Create policy`
+- Click `Create policy` button
 - Click `JSON` tab so that we can enter permissions via JSON format
 - In the Policy editor, copy and paste the following
 
@@ -95,12 +95,12 @@ Instead of attaching AdmistratorAccess, you can create new Permission policies b
 
 ## 2. Make a new IVS channel 
 
-Once you’ve got permissions, we can make a IVS Channel
+Once you’ve got permissions, we can make an IVS Channel
 
 - Go to the AWS Console and access the Interactive Video Service page
 - Select “Channel” tab on the left hand sidebar
-- Click the button “Create channel” on the top right corner.
-- Enter a channel name, and click the “Create channel” button on the bottom
+- Click the `Create channel` button on the top right corner.
+- Enter a channel name, and click `Create channel` button at the bottom
 - Once it's created, click your channel name in the list to go to details page
 - From the channel, details page, copy the following keys:
 
@@ -137,8 +137,8 @@ Now that we’ve made a channel, we can create a chat room: now.
 
 - Go to the AWS Console and access the Interactive Video Service page
 - Select `Rooms` tab under `Chat` on the left hand sidebar
-- Click the button `Create room` on the top right corner.
-- Enter a chat room name, and click the `Create room` button on the bottom
+- Click `Create room` button on the top right corner.
+- Enter a chat room name, and click `Create room` button on the bottom
 - Once it's created, click your chat room name in the list to go to details page
 - From the channel, details page, copy the room `ARN`
 - In your .env file of the project, add the copied ARN in the key  NEXT_PUBLIC_CHATROOM_ID=
@@ -169,16 +169,16 @@ Now 2 tabs of a streamer and viewer will be open
 
 ### C. Allow permissions
 
-- In the Streamer page, you will be asked for permissions to access the microphone and camera.
-- Click “Allow”
+- On the Streamer page, you will be asked for permissions to access the microphone and camera.
+- Click `Allow`
 
 
 ### D. Start Stream
 
-- In the Streamer page, click the green button `Go LIVE`
+- On the Streamer page, click the green `Go LIVE` button
 - Wait 5 seconds before `LIVE` label shows up.
 
-- In the Viewers page, the stream show start playing
+- On the Viewers page, the stream show start playing
 
 
 ### Result!
