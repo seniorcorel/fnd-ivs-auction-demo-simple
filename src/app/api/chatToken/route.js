@@ -5,6 +5,10 @@ export async function POST(request) {
 
   const client = new IvschatClient({
     region: process.env.NEXT_PUBLIC_AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.NEXT_PUBLIC_ACCESS_KEY_ID ?? '',
+      secretAccessKey: process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY ?? '',
+    },
   })
   const input = {
     roomIdentifier: process.env.NEXT_PUBLIC_CHATROOM_ID, // required
