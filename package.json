@@ -18,7 +18,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "amazon-ivs-chat-messaging": "^1.1.1",
     "copy-to-clipboard": "^3.3.3",
-    "next": "14.0.4",
+    "next": "^14.2.21",
     "next-redux-wrapper": "^8.1.0",
     "react": "^18",
     "react-confetti": "^6.1.0",
